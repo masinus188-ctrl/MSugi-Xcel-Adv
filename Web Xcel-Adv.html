@@ -1,0 +1,2679 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formula Xcel — Permainan Belajar Rumus Excel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6f2; --bg2:#e9ede5; --surf:#ffffff; --surf2:#f7f9f5;
+  --ink:#131a16; --mut:#5d6b62; --line:#dfe5da;
+  --acc:#12794a; --acc-ink:#ffffff; --acc-soft:#dff0e5;
+  --gold:#b4790c; --gold-soft:#fbeed2;
+  --bad:#b3261e; --bad-soft:#fbe3e0;
+  --lock:#9aa79f;
+  --med:#1d5fae; --med-soft:#dbe9fb;
+  --hardc:#b5570d; --hardc-soft:#fbe6d2;
+  --expertc:#7a2db3; --expertc-soft:#efe0fa;
+  --shadow:0 1px 2px rgba(19,26,22,.06), 0 8px 24px -12px rgba(19,26,22,.25);
+  --r:16px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1210; --bg2:#121a16; --surf:#161f1a; --surf2:#1b2620;
+    --ink:#e9f0ea; --mut:#93a39a; --line:#26332c;
+    --acc:#3ecb85; --acc-ink:#07160e; --acc-soft:#16302282;
+    --gold:#e8b350; --gold-soft:#3a2d0f;
+    --bad:#ff7a6e; --bad-soft:#3a1a16;
+    --lock:#5c6b63;
+    --med:#7db8ff; --med-soft:#16283f82;
+    --hardc:#ffb066; --hardc-soft:#3a230f82;
+    --expertc:#d6a8ff; --expertc-soft:#2e1a3f82;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1210; --bg2:#121a16; --surf:#161f1a; --surf2:#1b2620;
+  --ink:#e9f0ea; --mut:#93a39a; --line:#26332c;
+  --acc:#3ecb85; --acc-ink:#07160e; --acc-soft:#16302282;
+  --gold:#e8b350; --gold-soft:#3a2d0f;
+  --bad:#ff7a6e; --bad-soft:#3a1a16;
+  --lock:#5c6b63;
+  --med:#7db8ff; --med-soft:#16283f82;
+  --hardc:#ffb066; --hardc-soft:#3a230f82;
+  --expertc:#d6a8ff; --expertc-soft:#2e1a3f82;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4,.disp{font-family:Outfit, Inter, system-ui, sans-serif; font-weight:800; letter-spacing:-.02em; margin:0}
+code,.mono{font-family:"JetBrains Mono", ui-monospace, "SF Mono", Consolas, monospace}
+button{font:inherit;color:inherit}
+.wrap{max-width:1000px;margin:0 auto;padding:0 18px}
+
+/* ---------- Topbar ---------- */
+.top{position:sticky;top:0;z-index:40;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:62px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:0;padding:0}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--acc);color:var(--acc-ink);display:grid;place-items:center;font-family:Outfit;font-weight:800;font-size:17px;flex:none}
+.brand b{font-family:Outfit;font-weight:800;font-size:18px;letter-spacing:-.03em}
+.brand span{display:block;font-size:11px;color:var(--mut);letter-spacing:.08em;text-transform:uppercase;font-weight:600;line-height:1}
+.spacer{flex:1}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surf);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;white-space:nowrap}
+.chip.gold{color:var(--gold);border-color:color-mix(in srgb,var(--gold) 35%,var(--line));background:var(--gold-soft)}
+.iconbtn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--surf);cursor:pointer;display:grid;place-items:center;font-size:15px}
+.iconbtn:hover{border-color:var(--acc)}
+.theme-toggle{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:4px;border-radius:999px;border:1px solid var(--line);background:var(--surf2)}
+.theme-current,.theme-opt{width:30px;height:30px;border:0;border-radius:50%;background:transparent;color:var(--mut);display:grid;place-items:center;cursor:pointer;line-height:1;font-size:14px;transition:.18s;padding:0}
+.theme-current:hover,.theme-opt:hover{background:var(--surf);color:var(--ink)}
+.theme-current{background:var(--surf);border:1px solid var(--line);color:var(--ink);box-shadow:var(--shadow)}
+.theme-opt{display:none;position:absolute;left:50%;transform:translateX(-50%);z-index:2;background:var(--surf);border:1px solid var(--line);box-shadow:var(--shadow)}
+.theme-opt[data-theme="dark"]{top:calc(100% + 4px)}
+.theme-opt[data-theme="light"]{top:calc(100% + 36px)}
+.theme-opt[data-theme="auto"]{top:calc(100% + 68px)}
+.theme-toggle.open{background:var(--surf);border-color:var(--line)}
+.theme-toggle.open .theme-opt{display:grid}
+.theme-toggle.open .theme-current{border-color:var(--acc)}
+.top-actions{display:flex;align-items:center;gap:8px}
+
+/* ---------- Generic ---------- */
+.card{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.btn{border:1px solid var(--line);background:var(--surf);border-radius:12px;padding:11px 18px;font-weight:600;cursor:pointer;transition:.15s;font-size:15px}
+.btn:hover{border-color:var(--acc);transform:translateY(-1px)}
+.btn.primary{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.big{padding:14px 26px;font-size:16px;border-radius:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.muted{color:var(--mut)}
+.sm{font-size:13px}
+.center{text-align:center}
+section{display:none}
+section.on{display:block;animation:fade .28s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+code{background:var(--surf2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.88em;white-space:nowrap}
+
+/* ---------- Home ---------- */
+.hero{display:flex;gap:26px;align-items:center;padding:26px;margin:24px 0 20px;flex-wrap:wrap}
+.hero h1{font-size:30px;line-height:1.12;margin-bottom:8px}
+.hero p{margin:0;color:var(--mut);font-size:15px;max-width:52ch}
+.hero-copy{flex:1;min-width:250px}
+.ring{flex:none;width:112px;height:112px;position:relative;order:2;margin-left:auto}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:Outfit;font-size:24px;font-weight:800}
+.statrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.sectitle{display:flex;align-items:baseline;gap:10px;margin:30px 0 14px}
+.sectitle h2{font-size:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.lvl{padding:18px;text-align:left;cursor:pointer;border:1px solid var(--line);background:var(--surf);border-radius:var(--r);transition:.18s;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.lvl:hover:not(.locked){transform:translateY(-3px);border-color:var(--acc)}
+.lvl.locked{cursor:not-allowed;opacity:.62}
+.lvl.done3{background:color-mix(in srgb, var(--surf) 78%, var(--bg2));border-color:color-mix(in srgb, var(--line) 70%, var(--acc));box-shadow:0 1px 2px rgba(0,0,0,.08), 0 12px 26px -18px rgba(19,26,22,.45)}
+.lvl.done3 .ico{opacity:.7}
+.lvl.done3 .tag{background:var(--surf2)}
+.lvl .num{font-family:Outfit;font-weight:800;font-size:12px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+.lvl h3{font-size:17px;margin:6px 0 6px}
+.lvl p{margin:0;font-size:13.5px;color:var(--mut);line-height:1.45}
+.lvl .ico{position:absolute;right:14px;top:14px;font-size:20px;opacity:.5}
+.stars{margin-top:12px;font-size:15px;letter-spacing:2px;color:var(--gold)}
+.stars .off{color:var(--lock)}
+.badge-done{position:absolute;right:0;top:0;background:var(--acc);color:var(--acc-ink);font-size:11px;font-weight:700;padding:3px 10px;border-bottom-left-radius:10px}
+.pass-badge{position:absolute;right:14px;top:50%;display:inline-flex;align-items:center;gap:6px;background:var(--acc);color:var(--acc-ink);font-size:13px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;border-radius:999px;padding:8px 12px;box-shadow:0 8px 18px -12px rgba(18,121,74,.9);transform:translateY(-50%) rotate(6deg);border:2px solid color-mix(in srgb, var(--acc) 60%, #fff);min-width:88px;justify-content:center}
+.pass-badge .mark{font-size:15px;line-height:1}
+.tagrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.tag{font-size:11px;font-weight:600;background:var(--surf2);border:1px solid var(--line);border-radius:6px;padding:2px 7px;font-family:"JetBrains Mono",monospace}
+
+.exam-cta{margin-top:14px;padding:24px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;border:1px dashed var(--line);border-radius:var(--r);background:linear-gradient(160deg,var(--surf),var(--surf2))}
+.exam-cta.ready{border:1px solid var(--gold);background:linear-gradient(160deg,var(--gold-soft),var(--surf))}
+.exam-cta h3{font-size:20px;margin-bottom:6px}
+.exam-cta p{margin:0;color:var(--mut);font-size:14px;max-width:50ch}
+.trophy{font-size:44px;flex:none}
+
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.bdg{padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--surf);text-align:center}
+.bdg.off{opacity:.4}
+.bdg .e{font-size:26px}
+.bdg b{display:block;font-size:13px;margin-top:4px;font-family:Outfit}
+.bdg small{color:var(--mut);font-size:11.5px;line-height:1.3;display:block;margin-top:2px}
+
+/* ---------- Level intro ---------- */
+.intro{padding:26px;margin:24px 0}
+.intro h2{font-size:26px;margin-bottom:6px}
+.notes{margin:18px 0 0;display:grid;gap:10px}
+.note{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--surf2);border:1px solid var(--line);border-radius:12px}
+.note .f{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;color:var(--acc);white-space:nowrap;flex:none;min-width:150px}
+.note .d{font-size:13.5px;color:var(--mut)}
+@media (max-width:620px){.note{flex-direction:column;gap:4px}.note .f{min-width:0}}
+
+/* ---------- Quiz ---------- */
+.qbar{display:flex;align-items:center;gap:12px;margin:22px 0 4px}
+.pbar{flex:1;height:10px;background:var(--bg2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.pbar i{display:block;height:100%;background:var(--acc);border-radius:99px;transition:width .35s ease}
+.hearts{font-size:15px;letter-spacing:1px;white-space:nowrap}
+.hearts .off{opacity:.22}
+.qcard{padding:24px;margin:14px 0}
+.qmeta{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+.diffbadge{padding:3px 11px;border-radius:999px;font-size:10.5px;letter-spacing:.06em}
+.diff-easy{background:var(--acc-soft);color:var(--acc)}
+.diff-medium{background:var(--med-soft);color:var(--med)}
+.diff-hard{background:var(--hardc-soft);color:var(--hardc)}
+.diff-expert{background:var(--expertc-soft);color:var(--expertc)}
+.difflegend{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px}
+.qtext{font-family:Outfit;font-weight:600;font-size:20px;line-height:1.4;margin:10px 0 16px;letter-spacing:-.01em}
+.opts{display:grid;gap:9px}
+.opt{display:flex;gap:11px;align-items:center;text-align:left;width:100%;padding:13px 15px;border:1.5px solid var(--line);background:var(--surf);border-radius:12px;cursor:pointer;transition:.13s;font-size:15px}
+.opt:hover:not(:disabled){border-color:var(--acc);background:var(--surf2)}
+.opt .k{width:24px;height:24px;flex:none;border-radius:7px;background:var(--surf2);border:1px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700}
+.opt.correct{border-color:var(--acc);background:var(--acc-soft)}
+.opt.correct .k{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .k{background:var(--bad);color:#fff;border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.opt.picked{outline:2px solid var(--acc);outline-offset:1px}
+.fill{display:flex;gap:8px;flex-wrap:wrap}
+.fill input{flex:1;min-width:220px;font-family:"JetBrains Mono",monospace;font-size:15px;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surf2);color:var(--ink)}
+.fill input:focus{outline:none;border-color:var(--acc)}
+.keys{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.keys button{font-family:"JetBrains Mono",monospace;font-size:13px;font-weight:700;padding:6px 12px;border-radius:9px;border:1px solid var(--line);background:var(--surf2);cursor:pointer;min-width:38px}
+.keys button:hover{border-color:var(--acc);color:var(--acc)}
+.hintbox{margin-top:12px;font-size:13.5px;color:var(--mut);display:none;padding:10px 12px;border-radius:10px;background:var(--surf2);border:1px dashed var(--line)}
+.hintbox.on{display:block;animation:fade .2s}
+.btn.mini{padding:7px 13px;font-size:13.5px;border-radius:10px}
+.lvl.wide{width:100%;display:block}
+.lvl.wide h3{font-size:20px}
+.lvl.wide::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--acc)}
+.fb{margin-top:16px;padding:14px 16px;border-radius:12px;border:1px solid var(--line);background:var(--surf2);font-size:14.5px;display:none}
+.fb.on{display:block;animation:fade .2s}
+.fb b{font-family:Outfit;display:block;margin-bottom:3px;font-size:15px}
+.fb.ok{border-color:var(--acc);background:var(--acc-soft)}
+.fb.no{border-color:var(--bad);background:var(--bad-soft)}
+.qfoot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap}
+
+/* ---------- Spreadsheet ---------- */
+.sheet{overflow-x:auto;margin:0 0 16px;border:1px solid var(--line);border-radius:10px;background:var(--surf)}
+table.xl{border-collapse:collapse;font-size:13.5px;min-width:100%;font-family:Inter,sans-serif}
+table.xl th,table.xl td{border:1px solid var(--line);padding:6px 10px;white-space:nowrap}
+table.xl thead th{background:var(--surf2);color:var(--mut);font-weight:700;font-size:11.5px;text-align:center;font-family:"JetBrains Mono",monospace}
+table.xl tbody th{background:var(--surf2);color:var(--mut);font-weight:700;font-size:11.5px;text-align:center;width:34px;font-family:"JetBrains Mono",monospace}
+table.xl td.n{text-align:right;font-variant-numeric:tabular-nums}
+table.xl td.hl{background:var(--acc-soft)}
+
+/* ---------- Result ---------- */
+.res{padding:30px;margin:26px 0;text-align:center}
+.res .big{font-family:Outfit;font-size:54px;font-weight:800;line-height:1;letter-spacing:-.03em}
+.res .starsbig{font-size:34px;letter-spacing:6px;color:var(--gold);margin:8px 0}
+.res .starsbig .off{color:var(--lock)}
+.review{text-align:left;margin-top:22px;display:grid;gap:8px}
+.rv{padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surf2);font-size:13.5px}
+.rv b{display:block;font-weight:600;margin-bottom:3px}
+.rv .a{color:var(--acc);font-family:"JetBrains Mono",monospace;font-size:12.5px}
+.rv .w{color:var(--bad);font-family:"JetBrains Mono",monospace;font-size:12.5px;text-decoration:line-through}
+.btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+
+/* ---------- Exam ---------- */
+.timer{font-family:"JetBrains Mono",monospace;font-weight:700}
+.timer.warn{color:var(--bad)}
+.dots{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+.dot{width:9px;height:9px;border-radius:99px;background:var(--bg2);border:1px solid var(--line)}
+.dot.done{background:var(--acc);border-color:var(--acc)}
+
+/* ---------- Certificate ---------- */
+.certwrap{margin:24px 0}
+#certArea{background:#fff;border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow)}
+#certArea svg{display:block;width:100%;height:auto}
+.nameform{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+.nameform input{flex:1;min-width:240px;font-size:16px;padding:13px 15px;border-radius:12px;border:1.5px solid var(--line);background:var(--surf2);color:var(--ink);font-family:Outfit;font-weight:600}
+.nameform input:focus{outline:none;border-color:var(--acc)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:99px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:99}
+.toast.on{opacity:1;transform:translateX(-50%)}
+footer{padding:40px 0 60px;text-align:center;color:var(--mut);font-size:13px}
+
+@media print{
+  @page{size:A4 landscape;margin:0}
+  body{background:#fff}
+  body *{visibility:hidden}
+  #certArea,#certArea *{visibility:visible}
+  #certArea{position:absolute;left:0;top:0;width:100%;border:0;box-shadow:none;border-radius:0}
+}
+@media (max-width:560px){
+  .hero{padding:20px;gap:18px}.hero h1{font-size:24px}
+  .qtext{font-size:18px}.res .big{font-size:42px}
+  .brand span{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap">
+    <button class="brand" onclick="go('home')">
+      <div class="logo">fx</div>
+      <div><b>Formula Xcel</b><span>Akademi Rumus Excel</span></div>
+    </button>
+    <div class="spacer"></div>
+    <div class="chip gold" id="xpChip">⚡ 0 XP</div>
+    <div class="chip" id="lvChip">📚 0/12 modul</div>
+    <div class="top-actions">
+      <div class="theme-toggle" aria-label="Pilih tema">
+        <button class="theme-current" type="button" aria-label="Tema saat ini" aria-pressed="false">◐</button>
+        <button class="theme-opt" type="button" data-theme="dark" title="Tema gelap" aria-label="Tema gelap" aria-pressed="false">☾</button>
+        <button class="theme-opt" type="button" data-theme="light" title="Tema terang" aria-label="Tema terang" aria-pressed="false">☀</button>
+        <button class="theme-opt" type="button" data-theme="auto" title="Ikuti komputer" aria-label="Ikuti komputer" aria-pressed="false">◐</button>
+      </div>
+      <button class="iconbtn" id="sndBtn" title="Suara" onclick="toggleSound()">🔊</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= HOME ================= -->
+<section id="home" class="on">
+<div class="wrap">
+
+  <div class="hero card">
+    <div class="hero-copy">
+      <h1>Kuasai rumus Excel sambil bermain.</h1>
+      <p id="heroP"></p>
+      <div class="statrow">
+        <span class="chip" id="stQ">🎯 0 soal benar</span>
+        <span class="chip" id="stStar">⭐ 0 bintang</span>
+        <span class="chip" id="stStreak">🔥 Rekor beruntun 0</span>
+      </div>
+    </div>
+    <div class="ring">
+      <svg viewBox="0 0 120 120" width="112" height="112">
+        <circle cx="60" cy="60" r="52" fill="none" stroke="var(--line)" stroke-width="12"/>
+        <circle id="ringFill" cx="60" cy="60" r="52" fill="none" stroke="var(--acc)" stroke-width="12"
+                stroke-linecap="round" stroke-dasharray="327" stroke-dashoffset="327"/>
+      </svg>
+      <b id="ringTxt">0%</b>
+    </div>
+  </div>
+
+  <div class="sectitle"><h2>Modul Wajib</h2><span class="muted sm">Selesaikan modul wajib lebih dulu</span></div>
+  <div id="coreBox"></div>
+
+  <div class="sectitle"><h2>Pilih Modul Sesukamu</h2><span class="muted sm" id="freeNote"></span></div>
+  <div class="grid" id="lvGrid"></div>
+
+  <div class="sectitle"><h2>Ujian Master Excel</h2></div>
+  <div class="exam-cta" id="examCta"></div>
+
+  <div class="sectitle"><h2>Lencana</h2></div>
+  <div class="badges" id="badgeGrid"></div>
+
+  <div class="sectitle"><h2>Pengaturan</h2></div>
+  <div class="card" style="padding:18px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <span class="sm muted" style="flex:1;min-width:220px">Progres tersimpan otomatis di perangkat ini.</span>
+    <button class="btn" onclick="resetAll()">Reset semua progres</button>
+  </div>
+</div>
+</section>
+
+<!-- ================= LEVEL INTRO ================= -->
+<section id="intro">
+<div class="wrap">
+  <div class="intro card" id="introBox"></div>
+</div>
+</section>
+
+<!-- ================= QUIZ ================= -->
+<section id="quiz">
+<div class="wrap">
+  <div class="qbar">
+    <button class="iconbtn" onclick="quitQuiz()" title="Keluar">✕</button>
+    <div class="pbar"><i id="qProg" style="width:0%"></i></div>
+    <div class="hearts" id="qHearts"></div>
+    <div class="chip" id="qStreak" style="display:none">🔥 0</div>
+    <div class="chip timer" id="qTimer" style="display:none">20:00</div>
+  </div>
+  <div class="qcard card" id="qCard"></div>
+</div>
+</section>
+
+<!-- ================= RESULT ================= -->
+<section id="result">
+<div class="wrap"><div class="res card" id="resBox"></div></div>
+</section>
+
+<!-- ================= CERTIFICATE ================= -->
+<section id="cert">
+<div class="wrap">
+  <div style="margin:24px 0 0">
+    <h2 style="font-size:26px">🏆 Sertifikat Master Excel</h2>
+    <p class="muted sm" style="margin:6px 0 0">Tulis nama lengkapmu persis seperti yang ingin tercetak di sertifikat.</p>
+    <div class="nameform">
+      <input id="certName" placeholder="Nama lengkap kamu" maxlength="42" autocomplete="name">
+      <button class="btn primary" onclick="buildCert()">Buat Sertifikat</button>
+    </div>
+  </div>
+  <div class="certwrap"><div id="certArea"></div></div>
+  <div class="btnrow" style="justify-content:flex-start">
+    <button class="btn primary" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+    <button class="btn" id="pngBtn" onclick="savePNG()" style="display:none">⬇️ Unduh PNG</button>
+    <button class="btn" onclick="go('home')">Kembali ke beranda</button>
+  </div>
+  <p class="muted sm">Tips mencetak: pilih orientasi <b>Landscape</b>, ukuran kertas A4, dan aktifkan "Background graphics" agar warna ikut tercetak.</p>
+</div>
+</section>
+
+<footer>Formula Xcel · dibuat untuk belajar rumus &amp; fungsi Microsoft Excel - co. MSugi</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   DATA MATERI & SOAL
+   ========================================================= */
+function S(cols, rows, start){ return {cols:cols, rows:rows, start:start||1}; }
+
+const LEVELS = [
+{
+ id:1, icon:"▦", name:"Rumus Dasar", core:true,
+ desc:"Fondasi wajib: cara rumus bekerja, alamat sel, dan fungsi agregat. Selesaikan ini untuk membuka semua modul lain.",
+ tags:["SUM","AVERAGE","MIN","MAX","COUNT"],
+ notes:[
+  {f:"=A1+B1", d:"Setiap rumus diawali tanda sama dengan (=), lalu Excel menghitung isinya."},
+  {f:"=SUM(A1:A10)", d:"Menjumlahkan seluruh angka dari A1 sampai A10. Titik dua berarti \"sampai dengan\"."},
+  {f:"=AVERAGE(rentang)", d:"Rata-rata angka dalam rentang. Sel kosong diabaikan, angka nol tetap dihitung."},
+  {f:"=MIN() / =MAX()", d:"Nilai terkecil dan terbesar dalam rentang."},
+  {f:"=COUNT() / =COUNTA()", d:"COUNT menghitung sel berisi ANGKA, COUNTA menghitung semua sel yang TIDAK kosong."},
+  {f:"=B2*C2", d:"Operator hitung: + - * / dan ^ untuk pangkat. Kurung menentukan urutan hitung."}
+ ],
+ 
+},
+{
+ id:2, icon:"⚖", name:"Logika & Keputusan",
+ desc:"Membuat Excel mengambil keputusan sendiri dengan IF, AND, OR, dan IFERROR.",
+ tags:["IF","AND","OR","IFERROR"],
+ notes:[
+  {f:"=IF(uji, benar, salah)", d:"Jika kondisi terpenuhi tampilkan nilai pertama, kalau tidak tampilkan nilai kedua."},
+  {f:"Teks dalam rumus", d:"Semua teks wajib diapit tanda kutip ganda, contoh \"Lulus\"."},
+  {f:"=AND(a, b)", d:"TRUE hanya bila SEMUA syarat terpenuhi. Dipakai sebagai argumen pertama IF."},
+  {f:"=OR(a, b)", d:"TRUE bila SALAH SATU syarat terpenuhi."},
+  {f:"=IF(a,x,IF(b,y,z))", d:"IF bertingkat: diperiksa berurutan dari atas, berhenti pada syarat pertama yang benar."},
+  {f:"=IFERROR(rumus, nilai)", d:"Menampilkan nilai cadangan bila rumus menghasilkan error seperti #DIV/0! atau #N/A."}
+ ],
+ 
+},
+{
+ id:3, icon:"✎", name:"Manipulasi Teks",
+ desc:"Memotong, menggabung, dan merapikan data teks yang berantakan.",
+ tags:["LEFT","MID","LEN","TRIM","&"],
+ notes:[
+  {f:"=LEFT(teks, n)", d:"Mengambil n karakter dari kiri. RIGHT mengambil dari kanan."},
+  {f:"=MID(teks, mulai, n)", d:"Mengambil n karakter mulai dari posisi tertentu."},
+  {f:"=LEN(teks)", d:"Menghitung jumlah karakter. Spasi ikut dihitung."},
+  {f:"=TRIM(teks)", d:"Membuang spasi berlebih di awal, akhir, dan ganda di tengah."},
+  {f:"=A2&\" \"&B2", d:"Simbol & menyambung teks. Alternatif lain: CONCAT atau TEXTJOIN."},
+  {f:"=UPPER / LOWER / PROPER", d:"Mengubah huruf jadi KAPITAL, kecil, atau Kapital Di Awal Kata."}
+ ],
+ 
+},
+{
+ id:4, icon:"🔎", name:"Pencarian Data (Lookup)",
+ desc:"Mengambil data otomatis dari tabel lain — keterampilan paling dicari di dunia kerja.",
+ tags:["VLOOKUP","INDEX","MATCH","XLOOKUP"],
+ notes:[
+  {f:"=VLOOKUP(kunci, tabel, kolom_ke, FALSE)", d:"Mencari kunci di kolom PERTAMA tabel, lalu mengambil nilai kolom ke-n pada baris yang sama."},
+  {f:"FALSE atau 0", d:"Artinya harus sama persis. Hampir selalu inilah yang dipakai. TRUE hanya untuk pencarian rentang dan menuntut data terurut."},
+  {f:"$ pada rentang tabel", d:"Kunci rentangnya, contoh $A$2:$C$50, agar tidak bergeser saat rumus disalin ke bawah."},
+  {f:"=INDEX(hasil, MATCH(kunci, cari, 0))", d:"Kombinasi bebas arah: bisa mencari ke kiri dan tahan terhadap penyisipan kolom."},
+  {f:"=XLOOKUP(kunci, kolom_cari, kolom_hasil, jika_tidak_ada)", d:"Versi modern yang lebih sederhana dan punya argumen cadangan bawaan."}
+ ],
+ 
+},
+{
+ id:5, icon:"📅", name:"Tanggal & Waktu",
+ desc:"Menghitung umur, masa kerja, jatuh tempo, dan hari kerja.",
+ tags:["TODAY","DATEDIF","EOMONTH","TEXT"],
+ notes:[
+  {f:"=TODAY() / =NOW()", d:"Tanggal hari ini / tanggal beserta jam. Ditulis tanpa argumen, tapi kurungnya tetap ada."},
+  {f:"Tanggal itu angka", d:"Excel menyimpan tanggal sebagai nomor urut, jadi tanggal bisa langsung dikurangi atau ditambah hari."},
+  {f:"=YEAR / MONTH / DAY(tanggal)", d:"Mengambil komponen tahun, bulan, atau hari."},
+  {f:"=DATEDIF(awal, akhir, \"Y\")", d:"Selisih dua tanggal dalam satuan \"Y\" tahun, \"M\" bulan, atau \"D\" hari."},
+  {f:"=EOMONTH(tanggal, 0)", d:"Tanggal akhir bulan. Angka 1 untuk akhir bulan berikutnya, -1 untuk sebelumnya."},
+  {f:"=NETWORKDAYS(awal, akhir)", d:"Jumlah hari kerja, otomatis mengecualikan Sabtu dan Minggu."},
+  {f:"=TEXT(tanggal, \"mmmm\")", d:"Mengubah tanggal menjadi teks berformat, misalnya nama bulan."}
+ ],
+ 
+},
+{
+ id:6, icon:"📊", name:"Hitung Bersyarat",
+ desc:"Menjumlah dan menghitung data hanya jika memenuhi kriteria tertentu.",
+ tags:["SUMIF","COUNTIF","SUMIFS","ROUND"],
+ notes:[
+  {f:"=COUNTIF(rentang, kriteria)", d:"Menghitung banyak sel yang cocok. Kriteria perbandingan ditulis dalam kutip: \">80\"."},
+  {f:"=SUMIF(rentang_kriteria, kriteria, rentang_jumlah)", d:"Menjumlahkan nilai pada baris yang memenuhi satu syarat."},
+  {f:"=SUMIFS(rentang_jumlah, r1, k1, r2, k2)", d:"Banyak syarat. Perhatikan: yang dijumlahkan ditulis PALING DEPAN."},
+  {f:"=COUNTIFS(r1, k1, r2, k2)", d:"Menghitung baris yang memenuhi beberapa syarat sekaligus."},
+  {f:"=AVERAGEIF(rentang, kriteria, rentang_rata)", d:"Rata-rata bersyarat, polanya sama dengan SUMIF."},
+  {f:"=ROUND(angka, digit)", d:"Membulatkan ke jumlah desimal tertentu. Digit negatif membulatkan ke puluhan, ratusan, dan seterusnya."}
+ ],
+ 
+},
+{
+ id:7, icon:"⚡", name:"Rumus Tingkat Lanjut",
+ desc:"Referensi absolut, fungsi dinamis, dan membaca pesan error.",
+ tags:["$","SUMPRODUCT","FILTER","UNIQUE"],
+ notes:[
+  {f:"$A$1 vs A1", d:"Tanda $ mengunci kolom/baris agar tidak bergeser saat rumus disalin. $A$1 terkunci penuh, A$1 hanya barisnya, $A1 hanya kolomnya."},
+  {f:"=SUMPRODUCT(a, b)", d:"Mengalikan dua rentang baris per baris lalu menjumlahkan hasilnya — menggantikan kolom bantu."},
+  {f:"=UNIQUE(rentang)", d:"Daftar nilai tanpa duplikat (Excel 365 / 2021)."},
+  {f:"=FILTER(data, syarat)", d:"Menampilkan hanya baris yang memenuhi syarat, hasilnya melimpah otomatis ke bawah."},
+  {f:"=TEXTJOIN(pemisah, TRUE, rentang)", d:"Menggabung banyak sel sekaligus dengan pemisah pilihan."},
+  {f:"Pesan error", d:"#N/A tidak ditemukan · #VALUE! tipe data salah · #DIV/0! dibagi nol · #REF! acuan terhapus · #NAME? salah ketik nama fungsi · #SPILL! hasil dinamis tidak punya ruang."}
+ ],
+ 
+},
+{
+ id:8, icon:"🎨", name:"Format Cerdas & Validasi",
+ desc:"Membuat lembar kerja menandai masalahnya sendiri dan menolak input yang salah.",
+ tags:["Cond. Formatting","Data Validation","Tabel Excel"],
+ notes:[
+  {f:"Conditional Formatting", d:"Home → Conditional Formatting. Warna sel berubah otomatis mengikuti isinya."},
+  {f:"Aturan berbasis rumus", d:"Pilih \"Use a formula...\" lalu tulis rumus yang menghasilkan TRUE atau FALSE untuk sel pertama rentang."},
+  {f:"Kunci kolom dengan $", d:"Untuk menyorot SATU BARIS PENUH, kunci kolomnya saja: =$D2=\"Terlambat\"."},
+  {f:"Data Validation", d:"Data → Data Validation. Membatasi isi sel atau membuat daftar dropdown lewat tipe List."},
+  {f:"Custom number format", d:"Pola positif;negatif;nol;teks dipisahkan titik koma."},
+  {f:"Tabel Excel (Ctrl+T)", d:"Rentang jadi dinamis dan bisa dirujuk dengan nama, contoh =SUM(Tabel1[Total])."}
+ ],
+ 
+},
+{
+ id:9, icon:"📐", name:"PivotTable & Ringkasan Data",
+ desc:"Meringkas ribuan baris jadi laporan satu layar tanpa menulis rumus.",
+ tags:["PivotTable","Slicer","SUBTOTAL"],
+ notes:[
+  {f:"Insert → PivotTable", d:"Meringkas data besar dengan menyeret field ke empat area: Filters, Rows, Columns, Values."},
+  {f:"Area Values", d:"Field angka otomatis dijumlahkan (Sum), field teks otomatis dihitung (Count)."},
+  {f:"Show Values As", d:"Menampilkan angka sebagai persentase, misalnya % of Grand Total."},
+  {f:"Group", d:"Klik kanan field tanggal → Group untuk mengelompokkan per bulan, kuartal, atau tahun."},
+  {f:"Slicer & Timeline", d:"Tombol filter visual yang bisa mengendalikan beberapa pivot sekaligus."},
+  {f:"=SUBTOTAL(9, rentang)", d:"Menjumlah hanya baris yang terlihat setelah difilter. Kode 9 = SUM, 1 = AVERAGE, 3 = COUNTA."}
+ ],
+ 
+},
+{
+ id:10, icon:"⚙", name:"Power Query & Otomasi",
+ desc:"Membersihkan data sekali, lalu cukup klik Refresh setiap bulan berikutnya.",
+ tags:["Get & Transform","Merge","Unpivot"],
+ notes:[
+  {f:"Data → Get & Transform", d:"Mengambil data dari file, folder, database, atau web ke dalam editor Power Query."},
+  {f:"Applied Steps", d:"Setiap transformasi tercatat berurutan dan bisa diedit ulang. Bulan depan cukup tekan Refresh All."},
+  {f:"Merge Queries", d:"Menggabungkan dua tabel berdasarkan kolom kunci — versi kuat dari VLOOKUP."},
+  {f:"Append Queries", d:"Menumpuk beberapa tabel berstruktur sama menjadi satu tabel panjang."},
+  {f:"Unpivot Columns", d:"Mengubah tabel melebar (kolom Jan, Feb, Mar...) menjadi dua kolom rapi: Bulan dan Nilai."},
+  {f:"Power Pivot / Data Model", d:"Menghubungkan beberapa tabel lewat relasi dan menghitung ukuran dengan rumus DAX."}
+ ],
+ 
+},
+{
+ id:11, icon:"💰", name:"Rumus Keuangan",
+ desc:"Menghitung angsuran, tabungan, dan kelayakan investasi.",
+ tags:["PMT","FV","PV","NPV","IRR"],
+ notes:[
+  {f:"=PMT(rate, nper, pv)", d:"Angsuran tetap per periode untuk sebuah pinjaman."},
+  {f:"Menyamakan periode", d:"Bila angsuran bulanan, bunga tahunan dibagi 12 dan jangka waktu tahun dikali 12."},
+  {f:"Tanda minus", d:"Pokok pinjaman ditulis negatif agar hasil angsurannya keluar sebagai angka positif."},
+  {f:"=FV(rate, nper, pmt)", d:"Nilai akhir tabungan atau investasi di masa depan."},
+  {f:"=NPV(rate, arus_kas)", d:"Nilai sekarang arus kas. NPV positif berarti proyek menghasilkan lebih dari biaya modalnya."},
+  {f:"=IRR(arus_kas)", d:"Tingkat pengembalian internal, yaitu tingkat diskonto saat NPV tepat nol."}
+ ],
+ 
+},
+{
+ id:12, icon:"📈", name:"Statistik & Peringkat",
+ desc:"Membaca sebaran data, membuat ranking, dan mengukur hubungan antarvariabel.",
+ tags:["RANK","LARGE","MEDIAN","STDEV","CORREL"],
+ notes:[
+  {f:"=RANK.EQ(nilai, rentang, 0)", d:"Peringkat sebuah nilai. Angka 0 berarti nilai terbesar mendapat peringkat 1."},
+  {f:"Kunci rentangnya", d:"Rentang pembanding harus ditulis $B$2:$B$20 agar tidak bergeser saat rumus disalin."},
+  {f:"=LARGE / =SMALL(rentang, k)", d:"Nilai terbesar atau terkecil ke-k, misalnya juara ketiga."},
+  {f:"=MEDIAN() dan =MODE.SNGL()", d:"Nilai tengah dan nilai yang paling sering muncul."},
+  {f:"=STDEV.S vs =STDEV.P", d:"Simpangan baku untuk sampel (.S) atau untuk seluruh populasi (.P)."},
+  {f:"=CORREL(x, y)", d:"Kekuatan hubungan dua variabel, nilainya antara -1 dan 1."},
+  {f:"=MOD() / =INT() / =ABS()", d:"Sisa bagi, pembulatan ke bawah, dan nilai mutlak."}
+ ],
+ 
+}
+];
+function ri(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function pick(arr){ return arr[ri(0,arr.length-1)]; }
+function pickN(arr,n){ const a=arr.slice(), out=[]; const k=Math.min(n,a.length); for(let i=0;i<k;i++){ out.push(a.splice(ri(0,a.length-1),1)[0]); } return out; }
+function colLetterPick(){ return pick(["B","C","D"]); }
+function numDistract(correct, candidates, count){
+  const cSet = new Set();
+  candidates.forEach(function(v){ v=Math.round(v); if(v>=0 && String(v)!==String(correct)) cSet.add(String(v)); });
+  let chosen = pickN(Array.from(cSet), count);
+  let step=1, dir=1;
+  while(chosen.length<count){
+    const cand = String(Math.max(0, Math.round(Number(correct)) + dir*step));
+    if(cand!==String(correct) && chosen.indexOf(cand)===-1) chosen.push(cand);
+    dir*=-1; if(dir===1) step++;
+  }
+  return chosen.slice(0,count);
+}
+function mkMC(o){
+  const opts = shuffle([String(o.correct)].concat(o.distractors.map(String)));
+  return {t:"mc", q:o.q, o:opts, a:opts.indexOf(String(o.correct)), e:o.e, sheet:o.sheet, diff:o.diff};
+}
+function mkFill(o){
+  return {t:"fill", q:o.q, a:o.a, hint:o.hint, e:o.e, sheet:o.sheet, strict:!!o.strict, diff:o.diff};
+}
+const DIFF_META = { easy:{label:"Mudah"}, medium:{label:"Sedang"}, hard:{label:"Sulit"}, expert:{label:"Pakar"} };
+function sampleModuleQuestions(bank){
+  const buckets={easy:[],medium:[],hard:[],expert:[]};
+  bank.forEach(function(g){ buckets[g.diff].push(g); });
+  const want={easy:2,medium:2,hard:2,expert:1};
+  let chosen=[];
+  Object.keys(want).forEach(function(d){ chosen = chosen.concat(pickN(buckets[d], Math.min(want[d], buckets[d].length))); });
+  if(chosen.length<7){
+    const remaining = bank.filter(function(g){ return chosen.indexOf(g)===-1; });
+    chosen = chosen.concat(pickN(remaining, 7-chosen.length));
+  }
+  chosen = chosen.slice(0,7);
+  const rank={easy:0,medium:1,hard:2,expert:3};
+  chosen.sort(function(a,b){ return rank[a.diff]-rank[b.diff]; });
+  return chosen.map(function(g){ return g.make(); });
+}
+function sampleExamQuestions(n){
+  const flat = [];
+  Object.keys(GEN).forEach(function(mid){ GEN[mid].forEach(function(g){ flat.push(g); }); });
+  const buckets={easy:[],medium:[],hard:[],expert:[]};
+  flat.forEach(function(g){ buckets[g.diff].push(g); });
+  const want={easy:8,medium:12,hard:7,expert:3};
+  let chosen=[];
+  Object.keys(want).forEach(function(d){ chosen = chosen.concat(pickN(buckets[d], Math.min(want[d], buckets[d].length))); });
+  if(chosen.length<n){
+    const remaining = flat.filter(function(g){ return chosen.indexOf(g)===-1; });
+    chosen = chosen.concat(pickN(remaining, n-chosen.length));
+  }
+  chosen = shuffle(chosen.slice(0,n));
+  return chosen.map(function(g){ return g.make(); });
+}
+const SCN_AGG = [
+  {n:"Barang", c:"Jumlah"}, {n:"Siswa", c:"Nilai"}, {n:"Produk", c:"Stok"},
+  {n:"Karyawan", c:"Gaji"}, {n:"Pelanggan", c:"Pembelian"}
+];
+
+const GEN = {};
+
+/* ===================== MODUL 1: RUMUS DASAR ===================== */
+GEN[1] = [
+{diff:"easy", kind:"fill", make:function(){
+  const s = pick(SCN_AGG); const n = ri(3,5); const end = 1+n;
+  const rows = [["Nama", s.c]];
+  for(let i=0;i<n;i++) rows.push([s.n+" "+(i+1), String(ri(5,300))]);
+  return mkFill({
+    q:"Tulis rumus untuk menjumlahkan seluruh angka pada kolom "+s.c+", yaitu rentang B2 sampai B"+end+".",
+    sheet:S(["A","B"],rows),
+    a:["=SUM(B2:B"+end+")"],
+    hint:"Gunakan SUM, sel awal, titik dua, sel akhir.",
+    e:"`=SUM(B2:B"+end+")` menjumlahkan "+n+" sel sekaligus, jauh lebih aman daripada menulis satu per satu.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const col = colLetterPick(); const end = ri(10,60);
+  return mkFill({
+    q:"Tulis rumus untuk menghitung nilai rata-rata dari rentang "+col+"2 sampai "+col+end+".",
+    a:["=AVERAGE("+col+"2:"+col+end+")"],
+    hint:"Satu fungsi tujuh huruf, satu argumen.",
+    e:"`=AVERAGE("+col+"2:"+col+end+")`. Excel membagi total dengan jumlah sel berisi angka saja.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const r = ri(2,7);
+  const rows=[["Barang","Qty","Harga","Total"]];
+  for(let i=2;i<=r;i++) rows.push(["Item "+(i-1), String(ri(1,20)), String(ri(1000,50000)), i===r?"?":String(ri(5000,200000))]);
+  return mkFill({
+    q:"Jumlah barang ada di B"+r+" dan harga satuan di C"+r+". Tulis rumus untuk menghitung total harganya di D"+r+".",
+    sheet:S(["A","B","C","D"],rows),
+    a:["=B"+r+"*C"+r,"=C"+r+"*B"+r],
+    hint:"Operator kali di Excel adalah tanda bintang (*).",
+    e:"`=B"+r+"*C"+r+"`. Rumus ini bisa disalin ke bawah dan alamatnya menyesuaikan sendiri.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const pair = pick([["Realisasi","Target"],["Terjual","Stok Awal"],["Hadir","Total Undangan"],["Tercapai","Rencana"]]);
+  const r1=ri(2,8), r2=r1+1;
+  return mkFill({
+    q:pair[0]+" ada di B"+r1+" dan "+pair[1]+" ada di B"+r2+". Tulis rumus persentase pencapaiannya (selnya nanti diformat Percent).",
+    a:["=B"+r1+"/B"+r2],
+    hint:"Cukup pembagian sederhana.",
+    e:"`=B"+r1+"/B"+r2+"`. Jangan dikali 100 — cukup ubah format selnya menjadi Percentage.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const fn = pick(["MAX","MIN"]); const col = colLetterPick(); const end = ri(8,40);
+  return mkFill({
+    q:"Tulis rumus untuk mencari nilai "+(fn==="MAX"?"TERTINGGI":"TERENDAH")+" pada rentang "+col+"2 sampai "+col+end+".",
+    a:["="+fn+"("+col+"2:"+col+end+")"],
+    hint:"Fungsi tiga huruf.",
+    e:"`="+fn+"("+col+"2:"+col+end+")`.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const n=ri(5,8); const rows=[["Hari","Suhu"]];
+  for(let i=0;i<n;i++) rows.push(["Hari "+(i+1), String(ri(20,38))]);
+  const end=1+n;
+  return mkFill({
+    q:"Tulis satu rumus untuk mencari selisih antara suhu TERTINGGI dan TERENDAH pada rentang B2:B"+end+".",
+    sheet:S(["A","B"],rows),
+    a:["=MAX(B2:B"+end+")-MIN(B2:B"+end+")"],
+    hint:"Gabungkan dua fungsi dengan tanda kurang.",
+    e:"`=MAX(B2:B"+end+")-MIN(B2:B"+end+")`. Pola ini dipakai untuk mengukur rentang sebaran data.",
+    diff:"medium"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  const n=ri(5,8); const rows=[["Nama","Nilai"]];
+  let numCount=0,textCount=0,blankCount=0;
+  for(let i=0;i<n;i++){
+    const kind=pick(["num","num","num","text","blank"]);
+    let v;
+    if(kind==="num"){ v=String(ri(50,100)); numCount++; }
+    else if(kind==="text"){ v=pick(["Belum ikut","Absen","-","N/A"]); textCount++; }
+    else { v=""; blankCount++; }
+    rows.push(["Siswa "+(i+1), v]);
+  }
+  const end=1+n;
+  const correct=numCount;
+  const cands=[numCount+textCount, n, blankCount, textCount, numCount+blankCount, Math.max(0,numCount-1), numCount+1];
+  return mkMC({
+    q:"Berapa hasil `=COUNT(B2:B"+end+")`?",
+    sheet:S(["A","B"],rows),
+    correct:correct,
+    distractors:numDistract(correct,cands,3),
+    e:"COUNT hanya menghitung sel berisi ANGKA. Ada "+numCount+" sel angka, "+textCount+" sel teks, dan "+blankCount+" sel kosong pada data ini — hasilnya "+numCount+".",
+    diff:"medium"
+  });
+}},
+{diff:"hard", kind:"mc", make:function(){
+  const n=ri(5,8); const rows=[["Nama","Status"]];
+  let numCount=0,textCount=0,blankCount=0;
+  for(let i=0;i<n;i++){
+    const kind=pick(["num","text","text","blank"]);
+    let v;
+    if(kind==="num"){ v=String(ri(1,100)); numCount++; }
+    else if(kind==="text"){ v=pick(["Hadir","Izin","Sakit","Alpha"]); textCount++; }
+    else { v=""; blankCount++; }
+    rows.push(["Orang "+(i+1), v]);
+  }
+  const end=1+n;
+  const correct=numCount+textCount;
+  const cands=[numCount, n, blankCount, textCount, numCount+blankCount];
+  return mkMC({
+    q:"Berapa hasil `=COUNTA(B2:B"+end+")`?",
+    sheet:S(["A","B"],rows),
+    correct:correct,
+    distractors:numDistract(correct,cands,3),
+    e:"COUNTA menghitung SEMUA sel yang tidak kosong (angka maupun teks). Ada "+numCount+" angka + "+textCount+" teks = "+correct+" sel terisi, dari "+n+" baris total.",
+    diff:"hard"
+  });
+}},
+{diff:"expert", kind:"mc", make:function(){
+  const n=ri(6,9); const rows=[["Nama","Nilai"]];
+  let numCount=0,textCount=0,blankCount=0;
+  for(let i=0;i<n;i++){
+    const kind=pick(["num","num","text","blank"]);
+    let v;
+    if(kind==="num"){ v=String(ri(1,100)); numCount++; }
+    else if(kind==="text"){ v=pick(["Belum ikut","Absen","-"]); textCount++; }
+    else { v=""; blankCount++; }
+    rows.push(["Data "+(i+1), v]);
+  }
+  const end=1+n;
+  const correct=textCount;
+  const cands=[numCount, blankCount, n, numCount+textCount];
+  return mkMC({
+    q:"Berapa hasil `=COUNTA(B2:B"+end+")-COUNT(B2:B"+end+")`?",
+    sheet:S(["A","B"],rows),
+    correct:correct,
+    distractors:numDistract(correct,cands,3),
+    e:"COUNTA menghitung semua sel terisi ("+ (numCount+textCount) +"), COUNT hanya angka ("+numCount+"). Selisihnya "+correct+" adalah banyaknya sel yang berisi TEKS.",
+    diff:"expert"
+  });
+}},
+{diff:"hard", kind:"fill", make:function(){
+  const a=ri(4,15), gap=1, b=a+2, c=b+ri(3,9);
+  return mkFill({
+    q:"Data penjualan tersimpan di dua rentang terpisah karena ada baris sisipan: B2:B"+a+" dan B"+b+":B"+c+". Tulis satu rumus untuk menjumlahkan keduanya sekaligus.",
+    a:["=SUM(B2:B"+a+",B"+b+":B"+c+")"],
+    hint:"SUM bisa menerima lebih dari satu rentang, dipisah koma.",
+    e:"`=SUM(B2:B"+a+",B"+b+":B"+c+")`. Fungsi SUM menerima banyak argumen rentang sekaligus.",
+    diff:"hard"
+  });
+}},
+{diff:"hard", kind:"fill", make:function(){
+  const end=ri(6,25);
+  return mkFill({
+    q:"Ada dua cabang toko: Cabang A ada di rentang B2:B"+end+" dan Cabang B ada di rentang D2:D"+end+". Tulis satu rumus untuk menghitung rata-rata gabungan keduanya sekaligus.",
+    a:["=AVERAGE(B2:B"+end+",D2:D"+end+")"],
+    hint:"AVERAGE juga bisa menerima lebih dari satu rentang.",
+    e:"`=AVERAGE(B2:B"+end+",D2:D"+end+")` menghitung rata-rata dari kedua rentang sekaligus, seolah digabung jadi satu kumpulan data.",
+    diff:"hard"
+  });
+}},
+{diff:"expert", kind:"fill", make:function(){
+  const end=ri(9,14); const ex=ri(4,end-2);
+  return mkFill({
+    q:"Total penjualan ada di B2:B"+end+", tapi baris B"+ex+" adalah retur yang harus DIKURANGKAN dari totalnya. Tulis satu rumus yang langsung menghitung total bersih (total dikurangi retur).",
+    a:["=SUM(B2:B"+end+")-B"+ex],
+    hint:"Jumlahkan dulu semuanya, baru kurangi satu sel.",
+    e:"`=SUM(B2:B"+end+")-B"+ex+"`. Menghitung total dulu, baru mengurangi nilai retur, lebih ringkas daripada menjumlahkan manual sel per sel kecuali satu.",
+    diff:"expert"
+  });
+}}
+];
+
+/* ===================== MODUL 2: LOGIKA & KEPUTUSAN ===================== */
+GEN[2] = [
+{diff:"easy", kind:"fill", make:function(){
+  const thr = ri(60,85);
+  const pair = pick([["LULUS","REMEDIAL"],["LOLOS","TIDAK LOLOS"],["NAIK KELAS","TINGGAL KELAS"]]);
+  return mkFill({
+    q:"Nilai siswa ada di B2. Tulis rumus yang menampilkan teks "+pair[0]+" bila nilainya minimal "+thr+", dan "+pair[1]+" bila kurang dari itu.",
+    a:["=IF(B2>="+thr+",\""+pair[0]+"\",\""+pair[1]+"\")"],
+    hint:"=IF(syarat, \"teks benar\", \"teks salah\")",
+    e:"`=IF(B2>="+thr+",\""+pair[0]+"\",\""+pair[1]+"\")`. Tanda `>=` berarti \"minimal\" — memakai `>` saja membuat nilai tepat "+thr+" dianggap gagal.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const n = ri(5,20);
+  return mkFill({
+    q:"Stok barang ada di D2. Tulis rumus yang menampilkan 'SEGERA ORDER' bila stok kurang dari "+n+", dan 'AMAN' bila tidak.",
+    a:["=IF(D2<"+n+",\"SEGERA ORDER\",\"AMAN\")"],
+    hint:"Kurang dari ditulis dengan tanda <.",
+    e:"`=IF(D2<"+n+",\"Segera Order\",\"Aman\")`. Rumus ini sering dipadukan dengan Conditional Formatting agar sekalian berwarna merah.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const t1=ri(80,150), t2=ri(80,95);
+  return mkFill({
+    q:"Karyawan mendapat 'BONUS' bila penjualan (B2) minimal "+t1+" DAN kehadiran (C2) minimal "+t2+". Selain itu tampilkan tanda strip. Tulis rumusnya.",
+    sheet:S(["A","B","C","D"],[["Nama","Penjualan","Hadir","Status"],["Sari", String(t1+ri(0,30)), String(t2+ri(0,5)), "?"]]),
+    a:["=IF(AND(B2>="+t1+",C2>="+t2+"),\"BONUS\",\"-\")"],
+    hint:"Bungkus dua syarat dengan AND di dalam IF.",
+    e:"`=IF(AND(B2>="+t1+",C2>="+t2+"),\"Bonus\",\"-\")`. AND menjadi argumen pertama IF karena ia yang diuji.",
+    diff:"medium"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const amt = ri(5,20)*100000;
+  return mkFill({
+    q:"Pelanggan dapat 'DISKON' bila statusnya di B2 berisi VIP ATAU belanjanya di C2 minimal "+amt+". Selain itu tulis 'TIDAK'. Buat rumusnya.",
+    a:["=IF(OR(B2=\"VIP\",C2>="+amt+"),\"DISKON\",\"TIDAK\")"],
+    hint:"Cukup salah satu syarat terpenuhi — pakai OR.",
+    e:"`=IF(OR(B2=\"VIP\",C2>="+amt+"),\"Diskon\",\"Tidak\")`. OR bernilai benar bila minimal satu syarat terpenuhi.",
+    diff:"medium"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const rep = pick(["-","0","Tidak ada","Rp0","N/A","Kosong"]);
+  const cols = pick([["A","B"],["C","D"],["E","F"],["G","H"],["B","C"]]);
+  return mkFill({
+    q:"Rumus `="+cols[0]+"2/"+cols[1]+"2` menghasilkan #DIV/0! saat "+cols[1]+"2 kosong. Tulis ulang rumusnya agar menampilkan '"+rep+"' ketika terjadi error.",
+    a:["=IFERROR("+cols[0]+"2/"+cols[1]+"2,\""+rep.toUpperCase()+"\")"],
+    hint:"Bungkus seluruh pembagian dengan IFERROR.",
+    e:"`=IFERROR("+cols[0]+"2/"+cols[1]+"2,\""+rep+"\")`. IFERROR menangkap semua jenis error sekaligus.",
+    diff:"medium"
+  });
+}},
+{diff:"hard", kind:"fill", make:function(){
+  const t1=ri(85,95), t2=ri(70,84), t3=ri(55,69);
+  return mkFill({
+    q:"Nilai ada di B2. Tulis rumus IF bertingkat untuk memberi huruf: minimal "+t1+" dapat A, minimal "+t2+" dapat B, minimal "+t3+" dapat C, sisanya D.",
+    a:["=IF(B2>="+t1+",\"A\",IF(B2>="+t2+",\"B\",IF(B2>="+t3+",\"C\",\"D\")))"],
+    hint:"IF di dalam IF di dalam IF, urut dari nilai tertinggi.",
+    e:"`=IF(B2>="+t1+",\"A\",IF(B2>="+t2+",\"B\",IF(B2>="+t3+",\"C\",\"D\")))`. Urutan harus dari besar ke kecil.",
+    diff:"hard"
+  });
+}},
+{diff:"hard", kind:"fill", make:function(){
+  const t1=ri(90,95), t2=ri(80,89), t3=ri(70,79), t4=ri(55,69);
+  return mkFill({
+    q:"Nilai ada di C2. Tulis rumus IF bertingkat 5 kategori: minimal "+t1+" = 'A', minimal "+t2+" = 'B', minimal "+t3+" = 'C', minimal "+t4+" = 'D', sisanya 'E'.",
+    a:["=IF(C2>="+t1+",\"A\",IF(C2>="+t2+",\"B\",IF(C2>="+t3+",\"C\",IF(C2>="+t4+",\"D\",\"E\"))))"],
+    hint:"Empat IF bersarang, empat kurung tutup di akhir.",
+    e:"`=IF(C2>="+t1+",\"A\",IF(C2>="+t2+",\"B\",IF(C2>="+t3+",\"C\",IF(C2>="+t4+",\"D\",\"E\"))))`.",
+    diff:"hard"
+  });
+}},
+{diff:"expert", kind:"fill", make:function(){
+  const t1=ri(3,7), t2=ri(80,90);
+  return mkFill({
+    q:"Karyawan dapat 'PENGHARGAAN' bila (masa kerja di B2 minimal "+t1+" tahun DAN kinerja di C2 minimal "+t2+") ATAU bila kolom D2 berisi 'YA' (rekomendasi khusus). Selain itu tampilkan strip. Tulis rumusnya.",
+    a:["=IF(OR(AND(B2>="+t1+",C2>="+t2+"),D2=\"YA\"),\"PENGHARGAAN\",\"-\")"],
+    hint:"AND di dalam OR, semuanya di dalam IF.",
+    e:"`=IF(OR(AND(B2>="+t1+",C2>="+t2+"),D2=\"YA\"),\"Penghargaan\",\"-\")`. Kombinasi AND-di-dalam-OR memungkinkan dua jalur berbeda menuju hasil yang sama.",
+    diff:"expert"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  const v = ri(60,100);
+  let correct;
+  if(v>=90) correct="A"; else if(v>=80) correct="B"; else if(v>=70) correct="C"; else correct="D";
+  return mkMC({
+    q:"Nilai di B2 adalah "+v+". Apa hasil `=IF(B2>=90,\"A\",IF(B2>=80,\"B\",IF(B2>=70,\"C\",\"D\")))`?",
+    correct:correct, distractors:["A","B","C","D"].filter(function(x){return x!==correct;}),
+    e:"IF bertingkat diperiksa berurutan dari atas. Dengan nilai "+v+", hasil yang cocok adalah "+correct+".",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  const a=ri(1,10), b=ri(1,10), c=ri(1,10), d=ri(1,10);
+  const res = (a>b) && (c>d);
+  return mkMC({
+    q:"Apa hasil dari `=AND("+a+">"+b+", "+c+">"+d+")`?",
+    correct: res?"TRUE":"FALSE",
+    distractors:[res?"FALSE":"TRUE","#NAME?","0"],
+    e:"AND butuh SEMUA syarat benar. "+a+">"+b+" bernilai "+(a>b)+", dan "+c+">"+d+" bernilai "+(c>d)+", jadi hasilnya "+(res?"TRUE":"FALSE")+".",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  const a=ri(1,10), b=ri(1,10), c=ri(1,10), d=ri(1,10);
+  const res = (a>b) || (c>d);
+  return mkMC({
+    q:"Apa hasil dari `=OR("+a+">"+b+", "+c+">"+d+")`?",
+    correct: res?"TRUE":"FALSE",
+    distractors:[res?"FALSE":"TRUE","#NAME?","1"],
+    e:"OR cukup SALAH SATU syarat benar. "+a+">"+b+" bernilai "+(a>b)+", dan "+c+">"+d+" bernilai "+(c>d)+", jadi hasilnya "+(res?"TRUE":"FALSE")+".",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Urutan argumen fungsi IF yang benar adalah...",
+    correct:"=IF(uji_logika, nilai_benar, nilai_salah)",
+    distractors:["=IF(nilai_benar, uji_logika, nilai_salah)","=IF(nilai_salah, nilai_benar, uji_logika)","=IF(uji_logika, nilai_salah, nilai_benar)"],
+    e:"Polanya: apa yang diuji dulu, lalu hasil jika benar, terakhir hasil jika salah.",
+    diff:"easy"
+  });
+}}
+];
+
+/* ===================== MODUL 3: MANIPULASI TEKS ===================== */
+const PREFIXES = ["BRG","INV","TRX","SKU","ORD","REF"];
+GEN[3] = [
+{diff:"easy", kind:"fill", make:function(){
+  const pre = pick(PREFIXES); const num = ri(1000,9999); const code = pre+"-"+num;
+  const n = pre.length;
+  return mkFill({
+    q:"Kode barang ada di A2, misalnya "+code+". Tulis rumus untuk mengambil "+n+" karakter pertamanya.",
+    a:["=LEFT(A2,"+n+")"],
+    hint:"Fungsi empat huruf, dua argumen.",
+    e:"`=LEFT(A2,"+n+")` menghasilkan \""+pre+"\". Fungsi ini sering dipakai memisahkan kode kategori dari nomor urut.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const num = ri(1000,9999); const code = "FK-2026-"+num; const n=String(num).length;
+  return mkFill({
+    q:"Nomor faktur ada di A2, misalnya "+code+". Tulis rumus untuk mengambil "+n+" karakter terakhirnya.",
+    a:["=RIGHT(A2,"+n+")"],
+    hint:"Kebalikan dari LEFT.",
+    e:"`=RIGHT(A2,"+n+")` menghasilkan \""+num+"\".",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const pre = pick(["INV","TRX","ORD"]); const year = ri(2023,2027); const seq = ri(1,999);
+  const code = pre+"/"+year+"/"+String(seq).padStart(4,"0");
+  const start = pre.length+2;
+  return mkFill({
+    q:"Sel A2 berisi "+code+". Tulis rumus untuk mengambil bagian tahunnya saja, yaitu 4 karakter mulai dari posisi ke-"+start+".",
+    a:["=MID(A2,"+start+",4)"],
+    hint:"=MID(teks, posisi_mulai, jumlah_karakter)",
+    e:"`=MID(A2,"+start+",4)` menghasilkan "+year+". Karakter 1 sampai "+(start-1)+" adalah \""+pre+"/\".",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const words = pick(["Belajar Excel Bersama","Laporan Keuangan Bulanan","Data Pelanggan Aktif","Rekap Nilai Ujian",
+    "Formulir Pendaftaran Online","Jadwal Rapat Mingguan","Surat Permohonan Cuti","Daftar Hadir Karyawan",
+    "Analisis Penjualan Triwulan","Catatan Inventaris Gudang","Template Faktur Digital","Panduan Pengguna Aplikasi",
+    "Evaluasi Kinerja Tahunan","Proposal Anggaran Belanja","Ringkasan Notulen Rapat"]);
+  const cell = pick(["A2","B3","C5","D10"]);
+  return mkFill({
+    q:"Tulis rumus untuk menghitung berapa jumlah karakter (termasuk spasi) pada teks \""+words+"\" di sel "+cell+".",
+    a:["=LEN("+cell+")"],
+    hint:"Tiga huruf saja.",
+    e:"`=LEN("+cell+")` menghasilkan "+words.length+" untuk teks ini. Sering dipakai memeriksa panjang NIK atau nomor rekening.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const sep = pick([" ","-","/",", ","_"]);
+  const cols = pick([["A2","B2"],["C2","D2"],["A3","B3"],["E2","F2"]]);
+  return mkFill({
+    q:"Nama depan ada di "+cols[0]+" dan nama belakang di "+cols[1]+". Tulis rumus untuk menggabungkannya dengan pemisah tanda \""+sep+"\" di tengah.",
+    a:["="+cols[0]+"&\""+sep+"\"&"+cols[1],"=CONCAT("+cols[0]+",\""+sep+"\","+cols[1]+")","=CONCATENATE("+cols[0]+",\""+sep+"\","+cols[1]+")","=TEXTJOIN(\""+sep+"\",TRUE,"+cols[0]+","+cols[1]+")"],
+    hint:"Pakai simbol & dan pemisahnya di dalam tanda kutip.",
+    e:"`="+cols[0]+"&\""+sep+"\"&"+cols[1]+"` adalah cara tersingkat. CONCAT dan TEXTJOIN juga sah.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const cell = pick(["A2","B3","C5","D2","E7"]);
+  const phr = pick([
+    "Data hasil salin dari web di sel "+cell+" punya spasi berlebih di awal dan akhir. Tulis rumus untuk merapikannya.",
+    "Sel "+cell+" berisi hasil unduhan data yang penuh spasi ganda di sana-sini. Tulis rumus untuk membersihkannya menjadi satu spasi rapi.",
+    "Kolom nama pelanggan di sel "+cell+" sering punya spasi tak terlihat di ujung teks. Tulis rumus untuk membuangnya."
+  ]);
+  return mkFill({
+    q:phr,
+    a:["=TRIM("+cell+")"],
+    hint:"Empat huruf, artinya memangkas.",
+    e:"`=TRIM("+cell+")` menyisakan satu spasi antar kata dan membuang sisanya — langkah wajib sebelum VLOOKUP.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const ex = pick([
+    ["laporan KEUANGAN bulanan","Laporan Keuangan Bulanan"],
+    ["data PELANGGAN aktif","Data Pelanggan Aktif"],
+    ["rekap NILAI ujian","Rekap Nilai Ujian"],
+    ["jadwal RAPAT mingguan","Jadwal Rapat Mingguan"],
+    ["surat IZIN cuti","Surat Izin Cuti"],
+    ["daftar HADIR karyawan","Daftar Hadir Karyawan"],
+    ["catatan STOK gudang","Catatan Stok Gudang"],
+    ["formulir PENDAFTARAN online","Formulir Pendaftaran Online"]
+  ]);
+  const cell = pick(["A2","B4","C6"]);
+  return mkFill({
+    q:"Sel "+cell+" berisi \""+ex[0]+"\". Tulis rumus agar hasilnya menjadi \""+ex[1]+"\" (kapital di awal tiap kata).",
+    a:["=PROPER("+cell+")"],
+    hint:"Bukan UPPER, bukan LOWER.",
+    e:"`=PROPER("+cell+")` membuat huruf pertama tiap kata kapital dan sisanya huruf kecil.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const fn = pick(["UPPER","LOWER"]);
+  const label = fn==="UPPER" ? "SEMUA HURUF KAPITAL" : "semua huruf kecil";
+  const cell = pick(["A2","B3","C5","D8","E2","F4","A10","B12"]);
+  return mkFill({
+    q:"Tulis rumus untuk mengubah teks pada sel "+cell+" menjadi "+label+".",
+    a:["="+fn+"("+cell+")"],
+    hint:"Fungsi lima huruf sesuai arah perubahannya.",
+    e:"`="+fn+"("+cell+")`.",
+    diff:"medium"
+  });
+}},
+{diff:"expert", kind:"fill", make:function(){
+  const cell = pick(["A2","B3","C5","D2"]);
+  const scenario = pick([
+    {delim:"@", example:"nama@domain.com", label:"alamat email", part:"domain (bagian setelah tanda @)"},
+    {delim:",", example:"Kota, Provinsi", label:"data gabungan kota dan provinsi", part:"nama provinsi (bagian setelah tanda koma)"}
+  ]);
+  const dir = pick(["after","before"]);
+  let q, a, e, partLabel;
+  if(dir==="after"){
+    partLabel = scenario.delim==="@" ? "SETELAH tanda @ (nama domainnya)" : "SETELAH tanda koma (nama provinsinya)";
+    a = ["=MID("+cell+",FIND(\""+scenario.delim+"\","+cell+")+1,LEN("+cell+"))"];
+    e = "`=MID("+cell+",FIND(\""+scenario.delim+"\","+cell+")+1,LEN("+cell+"))`. FIND mencari posisi tanda \""+scenario.delim+"\", lalu MID mengambil semua karakter setelahnya.";
+  } else {
+    partLabel = scenario.delim==="@" ? "SEBELUM tanda @ (nama penggunanya saja)" : "SEBELUM tanda koma (nama kotanya saja)";
+    a = ["=LEFT("+cell+",FIND(\""+scenario.delim+"\","+cell+")-1)"];
+    e = "`=LEFT("+cell+",FIND(\""+scenario.delim+"\","+cell+")-1)`. FIND mencari posisi tanda \""+scenario.delim+"\", lalu LEFT mengambil semua karakter sebelumnya (dikurangi 1 agar tanda pemisahnya tidak ikut).";
+  }
+  q = (scenario.delim==="@" ? "Alamat email ada di "+cell+" (format "+scenario.example+")." : "Sel "+cell+" berisi "+scenario.label+" (format \""+scenario.example+"\").")+
+      " Tulis rumus untuk mengambil bagian "+partLabel+", berapa pun panjang teks sebelumnya.";
+  return mkFill({
+    q:q,
+    a:a,
+    hint:"Gabungkan FIND untuk mencari posisi tanda \""+scenario.delim+"\", dengan "+(dir==="after"?"MID":"LEFT")+" untuk mengambil bagiannya.",
+    e:e,
+    diff:"expert"
+  });
+}},
+{diff:"hard", kind:"mc", make:function(){
+  const pad = " ".repeat(ri(1,3));
+  const word = pick(["Data Bersih","Rapi Sekali","Contoh Teks","Nilai Ujian"]);
+  const raw = pad+word+pad+pad;
+  const trimmedLen = word.length;
+  const cands=[raw.length, trimmedLen+1, trimmedLen-1, word.replace(/ /g,"").length];
+  return mkMC({
+    q:"Berapa hasil `=LEN(TRIM(\""+raw.replace(/ /g,"·")+"\"))`? (tanda · di sini hanya mewakili spasi)",
+    correct: trimmedLen,
+    distractors: numDistract(trimmedLen, cands, 3),
+    e:"TRIM merapikan menjadi \""+word+"\" ("+trimmedLen+" karakter termasuk satu spasi di tengah), baru dihitung LEN.",
+    diff:"hard"
+  });
+}}
+];
+
+/* ===================== MODUL 4: LOOKUP ===================== */
+const NAMA_BANK = ["Pensil","Buku","Pulpen","Tas","Penggaris","Penghapus","Spidol","Map"];
+GEN[4] = [
+{diff:"easy", kind:"fill", make:function(){
+  const rows2=ri(20,60);
+  return mkFill({
+    q:"Tabel harga ada di A2:C"+rows2+" (kode di kolom A, harga di kolom C). Kode yang dicari ada di E2. Tulis rumus VLOOKUP untuk mengambil harganya secara persis.",
+    a:["=VLOOKUP(E2,A2:C"+rows2+",3,FALSE)","=VLOOKUP(E2,A2:C"+rows2+",3,0)"],
+    hint:"Empat argumen: apa dicari, tabelnya, kolom ke berapa, lalu FALSE.",
+    e:"`=VLOOKUP(E2,$A$2:$C$"+rows2+",3,FALSE)`. Angka 3 dihitung dari kolom pertama tabel.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const rows2=ri(20,60); const col=ri(2,5);
+  return mkFill({
+    q:"Rumus VLOOKUP-mu `VLOOKUP(E2,A2:F"+rows2+","+col+",FALSE)` menghasilkan #N/A saat kode tidak ditemukan. Tulis ulang agar menampilkan teks 'TIDAK ADA'.",
+    a:["=IFERROR(VLOOKUP(E2,A2:F"+rows2+","+col+",FALSE),\"TIDAK ADA\")","=IFERROR(VLOOKUP(E2,A2:F"+rows2+","+col+",0),\"TIDAK ADA\")"],
+    hint:"IFERROR( rumus_lookup , \"teks cadangan\" )",
+    e:"`=IFERROR(VLOOKUP(E2,$A$2:$F$"+rows2+","+col+",FALSE),\"Tidak ada\")`.",
+    diff:"medium"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const end=ri(20,50);
+  return mkFill({
+    q:"Nama ada di kolom A (A2:A"+end+") dan nilainya di kolom B (B2:B"+end+"). Nama yang dicari ada di E2. Tulis rumus INDEX-MATCH untuk mengambil nilainya.",
+    a:["=INDEX(B2:B"+end+",MATCH(E2,A2:A"+end+",0))"],
+    hint:"INDEX(kolom_hasil, MATCH(kunci, kolom_cari, 0))",
+    e:"`=INDEX(B2:B"+end+",MATCH(E2,A2:A"+end+",0))`. MATCH mencari posisi barisnya, INDEX mengambil isinya.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const end=ri(20,50);
+  return mkFill({
+    q:"Dengan Excel 365, tulis rumus XLOOKUP untuk mencari kode di E2 pada rentang A2:A"+end+" dan mengambil hasilnya dari C2:C"+end+".",
+    a:["=XLOOKUP(E2,A2:A"+end+",C2:C"+end+")"],
+    hint:"Tiga argumen: yang dicari, di mana mencari, dari mana hasil diambil.",
+    e:"`=XLOOKUP(E2,A2:A"+end+",C2:C"+end+")`. Tidak perlu menghitung nomor kolom dan tidak perlu FALSE.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const end=ri(20,50);
+  return mkFill({
+    q:"Lengkapi rumus `=XLOOKUP(E2,A2:A"+end+",C2:C"+end+")` agar menampilkan teks 'TIDAK ADA' ketika kode tidak ditemukan.",
+    a:["=XLOOKUP(E2,A2:A"+end+",C2:C"+end+",\"TIDAK ADA\")"],
+    hint:"Tambahkan argumen keempat.",
+    e:"`=XLOOKUP(E2,A2:A"+end+",C2:C"+end+",\"Tidak ada\")`. Argumen if_not_found membuat IFERROR tak diperlukan lagi.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Pada VLOOKUP, nilai yang dicari harus berada di kolom mana dari tabel referensi?",
+    correct:"Kolom paling kiri (pertama)",
+    distractors:["Kolom mana saja","Kolom paling kanan","Kolom kedua"],
+    e:"Ini keterbatasan utama VLOOKUP. Bila kunci ada di sebelah kanan data yang diambil, gunakan INDEX-MATCH atau XLOOKUP.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  const n = ri(4,6);
+  const items = pickN(NAMA_BANK, n);
+  const priceChoices = [2000,3000,4000,5000,6000,7000,8000,9000,10000,11000,12000,13000,15000,17000,20000];
+  const prices = pickN(priceChoices, n);
+  const rows=[["Kode","Nama","Harga"]];
+  for(let i=0;i<n;i++){ rows.push(["B00"+(i+1), items[i], String(prices[i])]); }
+  const idx = ri(0,n-1);
+  const target = "B00"+(idx+1);
+  const col = pick([2,3]);
+  const correct = col===2 ? items[idx] : String(prices[idx]);
+  const cands = col===2 ? items.filter(function(x){return x!==correct;}) : prices.filter(function(x){return x!==prices[idx];}).map(String);
+  return mkMC({
+    q:"Berapa hasil `=VLOOKUP(\""+target+"\",A2:C"+(n+1)+","+col+",FALSE)` pada tabel berikut?",
+    sheet:S(["A","B","C"],rows),
+    correct: correct,
+    distractors: pickN(cands,3),
+    e:"Kode "+target+" ditemukan, lalu diambil kolom ke-"+col+" dari tabel ("+(col===2?"Nama":"Harga")+") = "+correct+".",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Kapan argumen terakhir VLOOKUP sebaiknya diisi FALSE?",
+    correct:"Saat mencari kecocokan persis seperti kode atau NIK",
+    distractors:["Saat data sudah terurut","Saat mencari rentang nilai seperti grade","Selalu diisi TRUE"],
+    e:"FALSE berarti exact match. Untuk kode unik, NIK, atau ID selalu gunakan FALSE agar tidak salah ambil data.",
+    diff:"easy"
+  });
+}},
+{diff:"expert", kind:"mc", make:function(){
+  return mkMC({
+    q:"Tabel punya kolom Harga di posisi PALING KIRI dan Kode Barang di kolom paling KANAN. Untuk mencari Harga berdasarkan Kode tersebut, fungsi yang bisa dipakai adalah...",
+    correct:"INDEX-MATCH atau XLOOKUP",
+    distractors:["VLOOKUP biasa","COUNTIF","SUMIF"],
+    e:"VLOOKUP hanya bisa mencari ke KANAN dari kolom kuncinya. Karena kunci (Kode) berada di kanan hasil (Harga), VLOOKUP tidak bisa dipakai — harus INDEX-MATCH atau XLOOKUP yang bebas arah.",
+    diff:"expert"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  return mkMC({
+    q:"Apa keunggulan utama XLOOKUP dibanding VLOOKUP?",
+    correct:"Bisa mencari ke kiri dan punya argumen bila tidak ditemukan",
+    distractors:["Hanya bisa dipakai untuk angka","Tidak memerlukan rentang data","Lebih lambat tapi lebih akurat"],
+    e:"XLOOKUP bebas arah pencarian, default-nya exact match, dan punya argumen if_not_found sebagai pengganti IFERROR.",
+    diff:"medium"
+  });
+}}
+];
+
+/* ===================== MODUL 5: TANGGAL & WAKTU ===================== */
+GEN[5] = [
+{diff:"easy", kind:"fill", make:function(){
+  const branch = pick(["today","today","now"]);
+  if(branch==="now"){
+    const phr = pick([
+      "Tulis rumus yang menampilkan tanggal SEKALIGUS JAM saat ini, dan memperbarui diri otomatis.",
+      "Kamu ingin mencatat kapan tepatnya (tanggal dan jam) sebuah formulir disimpan, selalu mengikuti waktu terkini. Tulis rumusnya.",
+      "Tulis rumus satu fungsi tanpa argumen yang menampilkan tanggal berikut jam saat file dibuka.",
+      "Log aktivitas perlu mencatat stempel waktu (tanggal dan jam) yang selalu mengikuti waktu sistem saat ini. Tulis rumusnya.",
+      "Tulis rumus untuk menampilkan waktu saat ini lengkap dengan jam, menit, dan detik, yang terus berubah mengikuti jam sistem.",
+      "Sebuah sel dipakai mencatat waktu login terakhir pengguna (tanggal dan jam), selalu mengikuti waktu saat ini. Tulis rumusnya."
+    ]);
+    return mkFill({
+      q:phr,
+      a:["=NOW()"],
+      hint:"Mirip TODAY(), tapi menyertakan jam.",
+      e:"`=NOW()`. Berbeda dari `=TODAY()` yang hanya menampilkan tanggal, NOW() menyertakan jam saat itu juga.",
+      diff:"easy"
+    });
+  }
+  const phr = pick([
+    "Tulis rumus yang selalu menampilkan tanggal hari ini dan memperbarui diri setiap hari.",
+    "Kamu ingin sebuah sel selalu menunjukkan tanggal SAAT INI setiap kali file dibuka. Tulis rumusnya.",
+    "Tulis rumus paling sederhana untuk menampilkan tanggal hari ini tanpa mengetiknya manual.",
+    "Laporan harus selalu menampilkan tanggal cetak terkini setiap dibuka ulang. Tulis rumus untuk sel tanggalnya.",
+    "Tulis rumus satu fungsi tanpa argumen yang hasilnya berubah otomatis mengikuti tanggal sistem komputer.",
+    "Sebuah sel dipakai untuk mencatat tanggal pengecekan terakhir, dan harus selalu menunjukkan hari ini. Tulis rumusnya.",
+    "Tanpa mengetik tanggal manual, tulis rumus yang otomatis menunjukkan tanggal hari saat file dibuka.",
+    "Setiap kali workbook dibuka kembali besok atau lusa, sel ini harus tetap menunjukkan tanggal HARI ITU. Tulis rumusnya.",
+    "Tulis rumus yang tidak memerlukan argumen apa pun namun hasilnya selalu berupa tanggal hari ini."
+  ]);
+  return mkFill({
+    q:phr,
+    a:["=TODAY()"],
+    hint:"Tanpa argumen, tapi tanda kurungnya tetap ditulis.",
+    e:"`=TODAY()`. Kurung kosong wajib ada. Untuk tanggal beserta jam gunakan `=NOW()`.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const cell = pick(["B2","C3","D5"]);
+  const noun = pick(["Tanggal lahir karyawan","Tanggal lahir pelanggan","Tanggal lahir siswa","Tanggal lahir anggota"]);
+  const useMonth = pick([true,false]);
+  if(useMonth){
+    return mkFill({
+      q:noun+" (usia bayi/balita) ada di "+cell+". Tulis rumus untuk menghitung umurnya dalam BULAN penuh sampai hari ini.",
+      a:["=DATEDIF("+cell+",TODAY(),\"M\")"],
+      hint:"DATEDIF(tanggal_awal, tanggal_akhir, satuan). Satuan bulan ditulis \"M\".",
+      e:"`=DATEDIF("+cell+",TODAY(),\"M\")`. Cocok untuk usia bayi yang biasa dihitung per bulan, bukan tahun.",
+      diff:"easy"
+    });
+  }
+  return mkFill({
+    q:noun+" ada di "+cell+". Tulis rumus untuk menghitung umur dalam TAHUN penuh sampai hari ini.",
+    a:["=DATEDIF("+cell+",TODAY(),\"Y\")"],
+    hint:"DATEDIF(tanggal_awal, tanggal_akhir, satuan).",
+    e:"`=DATEDIF("+cell+",TODAY(),\"Y\")`. Urutannya harus tanggal lama dulu, baru tanggal baru.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const cell = pick(["A2","B4","C6","D3"]);
+  const noun = pick(["transaksi","pembelian","pengiriman","pendaftaran"]);
+  const fn = pick(["MONTH","YEAR"]);
+  const label = fn==="MONTH" ? "angka bulannya saja (1 sampai 12)" : "angka tahunnya saja";
+  return mkFill({
+    q:"Tanggal "+noun+" ada di "+cell+". Tulis rumus untuk mengambil "+label+".",
+    a:["="+fn+"("+cell+")"],
+    hint:fn==="MONTH" ? "Lima huruf." : "Empat huruf.",
+    e:"`="+fn+"("+cell+")`. Hasilnya angka, berguna untuk pengelompokan data dengan SUMIFS.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const col = pick(["A","B","C"]); const row = pick([2,5,10]); const cell = col+row;
+  const fmt = pick(["MMMM","MMM"]);
+  const noun = pick(["transaksi","pembelian"]);
+  const label = fmt==="MMMM" ? "secara lengkap, misalnya Januari" : "dalam bentuk singkatan tiga huruf, misalnya Jan";
+  return mkFill({
+    q:"Tanggal "+noun+" ada di "+cell+". Tulis rumus untuk menampilkan nama bulannya "+label+".",
+    a:["=TEXT("+cell+",\""+fmt+"\")"],
+    hint:"Fungsi TEXT dengan kode format huruf m.",
+    e:"`=TEXT("+cell+",\""+fmt+"\")`. Kode \"mmmm\" menampilkan nama bulan lengkap, \"mmm\" menghasilkan singkatannya.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const n = pick([14,15,20,30,45,60,90,120]);
+  const cell = pick(["A2","B3","C4"]);
+  return mkFill({
+    q:"Tanggal faktur ada di "+cell+" dan jatuh tempo "+n+" hari setelahnya. Tulis rumus tanggal jatuh temponya.",
+    a:["="+cell+"+"+n],
+    hint:"Tidak perlu fungsi apa pun.",
+    e:"`="+cell+"+"+n+"`. Karena tanggal disimpan sebagai angka urut, penambahan langsung menghasilkan tanggal baru.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const off = pick([0,1,-1]);
+  const cell = pick(["A2","B4","C7"]);
+  const phr = pick([
+    "Tulis rumus untuk menampilkan tanggal akhir bulan",
+    "Perusahaan menutup buku pada akhir bulan. Tulis rumus untuk mendapatkan tanggal akhir bulan"
+  ]);
+  return mkFill({
+    q:phr+(off===0?" YANG SAMA":off===1?" BERIKUTNYA":" SEBELUMNYA")+" dari tanggal yang ada di "+cell+".",
+    a:["=EOMONTH("+cell+","+off+")"],
+    hint:"Argumen kedua menentukan berapa bulan bergeser.",
+    e:"`=EOMONTH("+cell+","+off+")`. Angka 0 berarti bulan yang sama, 1 akhir bulan berikutnya, -1 akhir bulan sebelumnya.",
+    diff:"medium"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const pair = pick([["A2","B2"],["C2","D2"],["B5","B6"],["A10","A11"],["D2","E2"],["C5","C6"],["F2","G2"],["B8","C8"]]);
+  const phr = pick([
+    "Tanggal mulai ada di "+pair[0]+" dan tanggal selesai di "+pair[1]+". Tulis rumus untuk menghitung jumlah hari kerja di antaranya (tanpa Sabtu-Minggu).",
+    "Proyek berlangsung dari tanggal di "+pair[0]+" sampai tanggal di "+pair[1]+". Tulis rumus untuk menghitung berapa hari KERJA (bukan hari kalender) yang terpakai."
+  ]);
+  return mkFill({
+    q:phr,
+    a:["=NETWORKDAYS("+pair[0]+","+pair[1]+")"],
+    hint:"Satu fungsi panjang, dua argumen.",
+    e:"`=NETWORKDAYS("+pair[0]+","+pair[1]+")`. Argumen ketiga bisa diisi rentang daftar tanggal libur nasional.",
+    diff:"medium"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const cell = pick(["C2","D4","E6","B8"]);
+  const noun = pick(["masa kerja","masa berlangganan","masa magang","masa garansi"]);
+  return mkFill({
+    q:"Tanggal mulai "+noun+" ada di "+cell+". Tulis rumus untuk menghitung "+noun+" dalam BULAN penuh sampai hari ini.",
+    a:["=DATEDIF("+cell+",TODAY(),\"M\")"],
+    hint:"Satuannya huruf M dalam tanda kutip.",
+    e:"`=DATEDIF("+cell+",TODAY(),\"M\")`.",
+    diff:"medium"
+  });
+}},
+{diff:"hard", kind:"mc", make:function(){
+  const y1=ri(2023,2026), m1=ri(1,12), d1=ri(1,20);
+  const addDays = ri(5,60);
+  const dt1 = new Date(Date.UTC(y1,m1-1,d1));
+  const dt2 = new Date(dt1.getTime()+addDays*86400000);
+  const y2=dt2.getUTCFullYear(), m2=dt2.getUTCMonth()+1, d2=dt2.getUTCDate();
+  const pad=function(n){return String(n).padStart(2,"0");};
+  const s1=pad(d1)+"/"+pad(m1)+"/"+y1, s2=pad(d2)+"/"+pad(m2)+"/"+y2;
+  const cands=[addDays+1, addDays-1, addDays+7, Math.round(addDays*1.5)];
+  return mkMC({
+    q:"Sel A1 berisi tanggal "+s1+" dan B1 berisi tanggal "+s2+". Berapa hasil `=B1-A1` (sel diformat sebagai angka biasa)?",
+    correct: addDays,
+    distractors: numDistract(addDays,cands,3),
+    e:"Excel menyimpan tanggal sebagai angka urut, jadi pengurangan dua tanggal langsung menghasilkan jumlah hari di antaranya, yaitu "+addDays+".",
+    diff:"hard"
+  });
+}},
+{diff:"expert", kind:"mc", make:function(){
+  const y=ri(2024,2027); const m=pick([1,3,4,6,9,11,2]);
+  const off=pick([0,1,-1,2]);
+  const months=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  function eom(monthIdx0){ return new Date(Date.UTC(y, monthIdx0+1, 0)); }
+  function fmt2(d){ return d.getUTCDate()+" "+months[d.getUTCMonth()]+" "+d.getUTCFullYear(); }
+  const targetIdx = (m-1)+off;
+  const correctStr = fmt2(eom(targetIdx));
+  const distractIdx = [targetIdx-1, targetIdx+1, targetIdx-2, targetIdx+2];
+  const cands = Array.from(new Set(distractIdx.map(function(idx){ return fmt2(eom(idx)); }))).filter(function(x){ return x!==correctStr; });
+  return mkMC({
+    q:"Sel A1 berisi tanggal 15 "+months[m-1]+" "+y+". Apa hasil `=EOMONTH(A1,"+off+")` bila ditampilkan sebagai tanggal?",
+    correct: correctStr,
+    distractors: pickN(cands,3),
+    e:"EOMONTH(A1,"+off+") menghasilkan akhir bulan "+(off===0?"yang sama":off>0?(off+" bulan setelahnya"):("bulan sebelumnya"))+", yaitu "+correctStr+".",
+    diff:"expert"
+  });
+}}
+];
+
+/* ===================== MODUL 6: HITUNG BERSYARAT ===================== */
+GEN[6] = [
+{diff:"easy", kind:"fill", make:function(){
+  const thr = ri(60,90);
+  return mkFill({
+    q:"Tulis rumus untuk menghitung berapa banyak nilai pada rentang B2:B"+ri(20,40)+" yang lebih besar dari "+thr+".",
+    a:["=COUNTIF(B2:B"+ri(20,40)+",\">"+thr+"\")"],
+    hint:"Operator dan angka ditulis bersama dalam tanda kutip.",
+    e:"`=COUNTIF(rentang,\">"+thr+"\")`. Gunakan \">="+thr+"\" bila nilai "+thr+" ingin ikut terhitung.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const status = pick(["LUNAS","SELESAI","AKTIF","DITERIMA"]);
+  const end = ri(50,150);
+  return mkFill({
+    q:"Status ada di C2:C"+end+". Tulis rumus untuk menghitung berapa baris yang berisi teks "+status+".",
+    a:["=COUNTIF(C2:C"+end+",\""+status+"\")"],
+    hint:"Kriteria teks juga ditulis dalam tanda kutip.",
+    e:"`=COUNTIF(C2:C"+end+",\""+status+"\")`. COUNTIF menghitung JUMLAH BARIS, bukan menjumlahkan nilainya.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const kat = pick(["Elektronik","Pakaian","Makanan","Kosmetik","Otomotif"]);
+  const end = ri(50,150);
+  return mkFill({
+    q:"Kategori ada di A2:A"+end+" dan nilai transaksi di C2:C"+end+". Tulis rumus untuk menjumlahkan nilai transaksi berkategori "+kat+".",
+    a:["=SUMIF(A2:A"+end+",\""+kat+"\",C2:C"+end+")","=SUMIFS(C2:C"+end+",A2:A"+end+",\""+kat+"\")"],
+    hint:"SUMIF(rentang_kriteria, kriteria, rentang_yang_dijumlah).",
+    e:"`=SUMIF(A2:A"+end+",\""+kat+"\",C2:C"+end+")`. Pada SUMIF, rentang kriteria ditulis lebih dulu.",
+    diff:"medium"
+  });
+}},
+{diff:"hard", kind:"fill", make:function(){
+  const kota = pick(["Jakarta","Surabaya","Bandung","Medan","Semarang"]);
+  const thr = ri(50,150);
+  const end = ri(60,150);
+  return mkFill({
+    q:"Kota ada di B2:B"+end+", jumlah di C2:C"+end+", dan nilai di D2:D"+end+". Tulis rumus untuk menjumlahkan nilai yang kotanya "+kota+" DAN jumlahnya lebih dari "+thr+".",
+    a:["=SUMIFS(D2:D"+end+",B2:B"+end+",\""+kota+"\",C2:C"+end+",\">"+thr+"\")"],
+    hint:"Pada SUMIFS, rentang yang dijumlahkan justru ditulis paling depan.",
+    e:"`=SUMIFS(D2:D"+end+",B2:B"+end+",\""+kota+"\",C2:C"+end+",\">"+thr+"\")`.",
+    diff:"hard"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const jk = pick(["L","P"]);
+  const end = ri(30,80);
+  return mkFill({
+    q:"Jenis kelamin ada di A2:A"+end+" dan nilai di B2:B"+end+". Tulis rumus untuk mencari rata-rata nilai siswa berjenis kelamin "+jk+".",
+    a:["=AVERAGEIF(A2:A"+end+",\""+jk+"\",B2:B"+end+")","=AVERAGEIFS(B2:B"+end+",A2:A"+end+",\""+jk+"\")"],
+    hint:"Polanya sama persis dengan SUMIF.",
+    e:"`=AVERAGEIF(A2:A"+end+",\""+jk+"\",B2:B"+end+")`.",
+    diff:"medium"
+  });
+}},
+{diff:"hard", kind:"fill", make:function(){
+  const kota = pick(["Jakarta","Surabaya","Bandung"]);
+  const status = pick(["Lunas","Aktif","Selesai"]);
+  const end = ri(60,150);
+  return mkFill({
+    q:"Kota ada di A2:A"+end+" dan status di B2:B"+end+". Tulis rumus untuk menghitung berapa baris yang kotanya "+kota+" DAN statusnya "+status+".",
+    a:["=COUNTIFS(A2:A"+end+",\""+kota.toUpperCase()+"\",B2:B"+end+",\""+status.toUpperCase()+"\")"],
+    hint:"Berpasangan: rentang, kriteria, rentang, kriteria.",
+    e:"`=COUNTIFS(A2:A"+end+",\""+kota+"\",B2:B"+end+",\""+status+"\")`. Semua rentang harus punya tinggi yang sama.",
+    diff:"hard"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const digit = ri(0,3);
+  const cell = pick(["B2","C4","D6","E8"]);
+  return mkFill({
+    q:"Tulis rumus untuk membulatkan angka di sel "+cell+" menjadi "+digit+" angka di belakang koma.",
+    a:["=ROUND("+cell+","+digit+")"],
+    hint:"Dua argumen: angkanya dan jumlah desimalnya.",
+    e:"`=ROUND("+cell+","+digit+")`. Berbeda dari sekadar mengubah format sel, ROUND benar-benar mengubah nilainya.",
+    diff:"easy"
+  });
+}},
+{diff:"expert", kind:"fill", make:function(){
+  const neg = pick([-1,-2,-3,-4]);
+  const label = neg===-1?"puluhan":neg===-2?"ratusan":neg===-3?"ribuan":"puluhan ribu";
+  const cell = pick(["C2","D4","E6","B9"]);
+  return mkFill({
+    q:"Tulis rumus untuk membulatkan angka di sel "+cell+" ke "+label+" terdekat (gunakan digit negatif pada ROUND).",
+    a:["=ROUND("+cell+","+neg+")"],
+    hint:"Digit negatif membulatkan ke KIRI dari titik desimal.",
+    e:"`=ROUND("+cell+","+neg+")`. Digit negatif "+neg+" berarti pembulatan ke "+label+" terdekat.",
+    diff:"expert"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  const kat = pickN(["Elektronik","Pakaian"],2);
+  const n=ri(4,6); const rows=[["Kategori","Nilai"]];
+  let total=0;
+  for(let i=0;i<n;i++){ const k=pick(kat); const v=ri(50,500)*10; rows.push([k,String(v)]); if(k===kat[0]) total+=v; }
+  const cands=[total+ri(50,200),Math.max(0,total-ri(50,200)),total*2];
+  return mkMC({
+    q:"Berapa hasil `=SUMIF(A2:A"+(n+1)+",\""+kat[0]+"\",B2:B"+(n+1)+")`?",
+    sheet:S(["A","B"],rows),
+    correct: total,
+    distractors: numDistract(total,cands,3),
+    e:"Hanya baris berkategori "+kat[0]+" yang dijumlahkan, totalnya "+total+".",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  const thr = ri(70,85);
+  const n=ri(5,7); const rows=[["Siswa","Nilai"]]; let cnt=0;
+  for(let i=0;i<n;i++){ const v=ri(50,100); rows.push(["Siswa "+(i+1),String(v)]); if(v>thr) cnt++; }
+  const cands=[cnt+1,Math.max(0,cnt-1),n];
+  return mkMC({
+    q:"Berapa hasil `=COUNTIF(B2:B"+(n+1)+",\">"+thr+"\")`?",
+    sheet:S(["A","B"],rows),
+    correct: cnt,
+    distractors: numDistract(cnt,cands,3),
+    e:"Menghitung sel bernilai lebih besar dari "+thr+" saja (tidak termasuk yang tepat sama dengan "+thr+"), hasilnya "+cnt+".",
+    diff:"easy"
+  });
+}}
+];
+/* ===================== MODUL 7: RUMUS TINGKAT LANJUT ===================== */
+GEN[7] = [
+{diff:"hard", kind:"fill", make:function(){
+  const cellref = pick(["B1","E1","H1","D1","G1"]);
+  const col=cellref.charAt(0), row=cellref.slice(1);
+  const pct = pick([10,11,12,13]);
+  return mkFill({
+    q:"Harga ada di A2 dan persentase PPN "+pct+"% tersimpan tetap di sel "+cellref+". Tulis rumus PPN di kolom sebelah yang tetap benar saat disalin ke bawah (kunci selnya dengan tanda $).",
+    sheet:S(["A","B"],[["Harga","PPN"],["100000",cellref==="B1"?pct+"%":"?"],["250000","?"]]),
+    a:["=A2*$"+col+"$"+row,"=$"+col+"$"+row+"*A2"],
+    strict:true,
+    hint:"Hanya sel "+cellref+" yang dikunci penuh, A2 dibiarkan bebas bergeser.",
+    e:"`=A2*$"+col+"$"+row+"`. Tanpa tanda $, saat disalin ke bawah rumusnya ikut bergeser dan hasilnya salah.",
+    diff:"hard"
+  });
+}},
+{diff:"hard", kind:"fill", make:function(){
+  const cellref = pick(["E1","H2","K1","F3","J1","D2","G1","M2"]);
+  const col=cellref.charAt(0), row=cellref.slice(1);
+  const src = pick(["A2","B2","C2"]);
+  return mkFill({
+    q:"Harga di "+src+" akan dikalikan kurs yang tersimpan tetap di sel "+cellref+". Tulis rumus yang tetap benar saat disalin ke bawah.",
+    a:["="+src+"*$"+col+"$"+row,"=$"+col+"$"+row+"*"+src],
+    strict:true,
+    hint:"Kunci penuh sel kursnya dengan dua tanda $.",
+    e:"`="+src+"*$"+col+"$"+row+"`. Tanpa penguncian, acuan kursnya ikut bergeser turun dan hasilnya kosong.",
+    diff:"hard"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const end=ri(10,30);
+  return mkFill({
+    q:"Qty ada di A2:A"+end+" dan harga satuan di B2:B"+end+". Tulis SATU rumus untuk menghitung total nilai semuanya tanpa kolom bantu.",
+    a:["=SUMPRODUCT(A2:A"+end+",B2:B"+end+")","=SUMPRODUCT(B2:B"+end+",A2:A"+end+")"],
+    hint:"Satu fungsi panjang, dua rentang.",
+    e:"`=SUMPRODUCT(A2:A"+end+",B2:B"+end+")`. Excel mengalikan baris per baris lalu menjumlahkan semuanya sekaligus.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const end=ri(50,300);
+  const kolom = pick(["Kota","Kategori","Nama Produk","Departemen"]);
+  return mkFill({
+    q:"Kolom A2:A"+end+" berisi daftar "+kolom+" yang banyak berulang. Tulis rumus dinamis untuk menampilkan daftarnya tanpa pengulangan.",
+    a:["=UNIQUE(A2:A"+end+")"],
+    hint:"Satu fungsi, satu argumen.",
+    e:"`=UNIQUE(A2:A"+end+")`. Hasilnya melimpah otomatis ke bawah, pastikan sel di bawahnya kosong.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const status = pick(["Aktif","Lunas","Disetujui"]);
+  const end=ri(50,300);
+  return mkFill({
+    q:"Data ada di A2:C"+end+" dengan status di kolom C. Tulis rumus dinamis untuk menampilkan hanya baris yang statusnya "+status+".",
+    a:["=FILTER(A2:C"+end+",C2:C"+end+"=\""+status+"\")"],
+    hint:"FILTER(data_yang_ditampilkan, syaratnya).",
+    e:"`=FILTER(A2:C"+end+",C2:C"+end+"=\""+status+"\")`.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const sep = pick([", ","; "," - "]);
+  const end=ri(5,20);
+  return mkFill({
+    q:"Tulis rumus untuk menggabungkan seluruh nama pada rentang A2:A"+end+" menjadi satu baris, dipisahkan \""+sep+"\", dengan sel kosong diabaikan.",
+    a:["=TEXTJOIN(\""+sep+"\",TRUE,A2:A"+end+")"],
+    hint:"TEXTJOIN(pemisah, abaikan_kosong, rentang).",
+    e:"`=TEXTJOIN(\""+sep+"\",TRUE,A2:A"+end+")`.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  const opts = [
+    ["#N/A","nilai yang dicari tidak ditemukan","Nama fungsi salah ketik","Ada pembagian dengan nol","Kolom acuan terhapus"],
+    ["#NAME?","nama fungsi salah ketik atau tidak dikenali","Nilai tidak ditemukan","Dibagi nol","Referensi terhapus"],
+    ["#DIV/0!","ada pembagian dengan angka nol","Fungsi salah ketik","Referensi terhapus","Nilai tidak ditemukan"],
+    ["#REF!","sel atau kolom yang diacu rumus sudah dihapus","Dibagi nol","Nilai tidak ditemukan","Fungsi tidak dikenali"]
+  ];
+  const pickd = pick(opts);
+  return mkMC({
+    q:"Error `"+pickd[0]+"` pada Excel muncul saat...",
+    correct: pickd[1],
+    distractors:[pickd[2],pickd[3],pickd[4]],
+    e:"`"+pickd[0]+"` berarti "+pickd[1]+".",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  return mkMC({
+    q:"Error `#SPILL!` muncul ketika...",
+    correct:"Hasil rumus dinamis tidak punya ruang kosong untuk melimpah",
+    distractors:["Rumus dibagi nol","Nama fungsi salah","File terlalu besar"],
+    e:"FILTER dan UNIQUE butuh sel kosong di bawah/kanannya. Kosongkan area tujuan untuk memperbaikinya.",
+    diff:"medium"
+  });
+}},
+{diff:"expert", kind:"mc", make:function(){
+  const n=ri(3,5); const rows=[["Qty","Harga"]];
+  let total=0;
+  for(let i=0;i<n;i++){ const q=ri(1,10); const h=ri(1,10)*1000; rows.push([String(q),String(h)]); total+=q*h; }
+  const cands=[total+ri(1000,5000), Math.round(total*1.1), Math.round(total*0.9)];
+  return mkMC({
+    q:"Berapa hasil `=SUMPRODUCT(A2:A"+(n+1)+",B2:B"+(n+1)+")`?",
+    sheet:S(["A","B"],rows),
+    correct: total,
+    distractors: numDistract(total,cands,3),
+    e:"SUMPRODUCT mengalikan tiap pasangan baris lalu menjumlahkan semuanya: total = "+total+".",
+    diff:"expert"
+  });
+}}
+];
+
+/* ===================== MODUL 8: FORMAT CERDAS & VALIDASI ===================== */
+GEN[8] = [
+{diff:"hard", kind:"fill", make:function(){
+  const col = colLetterPick(); const thr = ri(5,20);
+  return mkFill({
+    q:"Data mulai baris 2. Tulis rumus aturan Conditional Formatting untuk menyorot SATU BARIS PENUH yang stoknya di kolom "+col+" kurang dari "+thr+".",
+    a:["=$"+col+"2<"+thr],
+    strict:true,
+    hint:"Kunci kolomnya saja dengan satu tanda $, jangan kunci barisnya.",
+    e:"`=$"+col+"2<"+thr+"`. Kolom dikunci agar semua sel dalam baris memeriksa kolom "+col+", baris dibiarkan relatif agar aturan turun ke bawah.",
+    diff:"hard"
+  });
+}},
+{diff:"hard", kind:"fill", make:function(){
+  const col = pick(["B","C","D","E"]); const word = pick(["TERLAMBAT","BATAL","DITOLAK","KADALUARSA","PENDING","GAGAL"]);
+  return mkFill({
+    q:"Data mulai baris 2. Tulis rumus aturan Conditional Formatting untuk menyorot baris yang kolom "+col+"-nya berisi teks "+word+".",
+    a:["=$"+col+"2=\""+word+"\""],
+    strict:true,
+    hint:"Pola yang sama: $ hanya di depan huruf kolom.",
+    e:"`=$"+col+"2=\""+word+"\"`. Kalau ditulis =$"+col+"$2=..., seluruh rentang akan ikut berwarna atau tidak sama sekali.",
+    diff:"hard"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const tname = pick(["Tabel1","TabelPenjualan","DataUtama","TabelTransaksi","DataKaryawan"]);
+  const col = pick(["Total","Harga","Nilai","Pendapatan","Gaji"]);
+  return mkFill({
+    q:"Data sudah diubah menjadi Tabel Excel bernama "+tname+" dengan kolom "+col+". Tulis rumus penjumlahan yang ikut melebar sendiri saat baris baru ditambahkan.",
+    a:["=SUM("+tname+"["+col+"])"],
+    hint:"Sebut nama tabelnya lalu nama kolom dalam kurung siku.",
+    e:"`=SUM("+tname+"["+col+"])`. Referensi terstruktur selalu menunjuk seluruh isi kolom.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Kamu ingin setiap nilai di bawah ambang tertentu otomatis berwarna merah tanpa mewarnainya satu per satu. Fiturnya adalah...",
+    correct:"Conditional Formatting",
+    distractors:["Data Validation","Format Painter","Filter"],
+    e:"Conditional Formatting menerapkan format berdasarkan aturan dan memperbarui diri saat nilainya berubah.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Cara membuat sel hanya boleh diisi pilihan tertentu lewat dropdown adalah...",
+    correct:"Data Validation → List",
+    distractors:["Conditional Formatting → Icon Set","Insert → Combo Box","Menulis IF bertingkat"],
+    e:"Data Validation bertipe List menampilkan panah dropdown sekaligus menolak ketikan di luar daftar.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  return mkMC({
+    q:"Dalam custom number format, empat bagian pola dipisahkan oleh tanda...",
+    correct:"Titik koma",
+    distractors:["Koma","Garis miring","Spasi"],
+    e:"Urutannya positif;negatif;nol;teks. Mengosongkan bagian ketiga membuat angka nol tidak ditampilkan.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Apa yang terjadi saat menekan Ctrl+T pada sebuah rentang data?",
+    correct:"Rentang berubah menjadi Tabel Excel dengan filter dan nama",
+    distractors:["Menyisipkan PivotTable","Menghapus semua format","Membuka Data Validation"],
+    e:"Ctrl+T membuat Tabel Excel: tombol filter muncul dan rentangnya menjadi dinamis.",
+    diff:"easy"
+  });
+}},
+{diff:"expert", kind:"mc", make:function(){
+  const scenario = pick([
+    ["menyorot seluruh KOLOM D bila D2 di baris pertama bernilai negatif (biar konsisten satu kolom saja)","=D2<0 dengan hanya kolom D yang dikunci ($D2)"],
+    ["menyorot seluruh BARIS bila kolom C pada baris itu berisi kata 'Batal'","=$C2=\"Batal\" dengan hanya kolom C yang dikunci"],
+  ]);
+  return mkMC({
+    q:"Kamu ingin membuat aturan Conditional Formatting untuk "+scenario[0]+". Pola penguncian $ yang tepat pada rumus aturannya adalah...",
+    correct: scenario[1],
+    distractors:["Mengunci baris dan kolom sekaligus ($D$2)","Mengunci barisnya saja (D$2)","Tidak perlu tanda $ sama sekali"],
+    e:"Untuk aturan yang diterapkan ke banyak sel dalam SATU kolom atau SATU baris acuan, hanya bagian yang tidak boleh berubah yang dikunci dengan $, sisanya dibiarkan relatif.",
+    diff:"expert"
+  });
+}}
+];
+
+/* ===================== MODUL 9: PIVOTTABLE & RINGKASAN DATA ===================== */
+GEN[9] = [
+{diff:"medium", kind:"fill", make:function(){
+  const end=ri(50,500);
+  return mkFill({
+    q:"Tulis rumus untuk menjumlahkan rentang B2:B"+end+" yang hanya menghitung baris hasil filter, bukan seluruh data.",
+    a:["=SUBTOTAL(9,B2:B"+end+")","=SUBTOTAL(109,B2:B"+end+")"],
+    hint:"Fungsinya SUBTOTAL, dan kode untuk SUM adalah 9.",
+    e:"`=SUBTOTAL(9,B2:B"+end+")`. Inilah rumus yang otomatis dipakai baris Total pada Tabel Excel.",
+    diff:"medium"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const end=ri(50,500);
+  return mkFill({
+    q:"Tulis rumus untuk menghitung berapa banyak sel terisi pada A2:A"+end+" yang terlihat setelah difilter (kode SUBTOTAL untuk COUNTA adalah 3).",
+    a:["=SUBTOTAL(3,A2:A"+end+")","=SUBTOTAL(103,A2:A"+end+")"],
+    hint:"Sama seperti sebelumnya, hanya kode fungsinya yang berbeda.",
+    e:"`=SUBTOTAL(3,A2:A"+end+")` menghitung baris yang tampak.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Ada ribuan baris transaksi dan kamu diminta total penjualan per kota dalam lima menit. Cara tercepat adalah...",
+    correct:"Membuat PivotTable",
+    distractors:["Menulis SUMIF satu per satu","Mengurutkan lalu menjumlah manual","Memakai Conditional Formatting"],
+    e:"PivotTable meringkas per kategori hanya dengan menyeret field, tanpa rumus dan tanpa risiko salah rentang.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Agar nama kota tampil sebagai daftar KE BAWAH dalam PivotTable, field Kota diletakkan di area...",
+    correct:"Rows",
+    distractors:["Filters","Columns","Values"],
+    e:"Rows menyusun kategori ke bawah, Columns ke samping, dan Values berisi angka yang diringkas.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  return mkMC({
+    q:"PivotTable menampilkan Count padahal kolomnya berisi angka. Penyebab paling umum adalah...",
+    correct:"Ada sel kosong atau angka tersimpan sebagai teks di kolom itu",
+    distractors:["Terlalu banyak baris","Filter sedang aktif","Pivot belum di-refresh"],
+    e:"Satu sel non-angka saja membuat Excel memilih Count. Bersihkan datanya lalu ubah lewat Value Field Settings.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Data sumber sudah ditambah baris baru tetapi angka pivot belum berubah. Yang harus dilakukan adalah...",
+    correct:"Klik kanan pivot → Refresh",
+    distractors:["Membuat pivot baru dari nol","Menyimpan lalu menutup file","Menekan F9"],
+    e:"PivotTable bekerja atas salinan data sehingga perlu Refresh.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  return mkMC({
+    q:"Untuk menampilkan kontribusi tiap kota dalam persen terhadap total keseluruhan, gunakan...",
+    correct:"Show Values As → % of Grand Total",
+    distractors:["Number Format → Percentage","Conditional Formatting","Sort Descending"],
+    e:"Mengubah format angka hanya menambah tanda %, sedangkan Show Values As benar-benar menghitung proporsinya.",
+    diff:"medium"
+  });
+}},
+{diff:"hard", kind:"mc", make:function(){
+  return mkMC({
+    q:"Kolom tanggal transaksi mentah (harian) di PivotTable ingin diringkas per KUARTAL, bukan per hari. Caranya adalah...",
+    correct:"Klik kanan field tanggal pada area Rows → Group → pilih Quarters",
+    distractors:["Mengetik ulang seluruh tanggal manual","Membuat kolom bantu di luar pivot untuk tiap kuartal","Tidak bisa dilakukan di PivotTable"],
+    e:"Fitur Group pada field tanggal bisa langsung mengelompokkan ke Hari, Bulan, Kuartal, atau Tahun tanpa mengubah data sumber.",
+    diff:"hard"
+  });
+}},
+{diff:"expert", kind:"mc", make:function(){
+  return mkMC({
+    q:"Baris Total pada Tabel Excel otomatis memakai SUBTOTAL, bukan SUM biasa. Alasan utamanya adalah...",
+    correct:"Agar hasilnya otomatis menyesuaikan saat data difilter, hanya menghitung baris yang terlihat",
+    distractors:["SUBTOTAL lebih cepat dihitung komputer","SUM tidak bisa dipakai di dalam Tabel Excel","Tidak ada alasan khusus, keduanya identik"],
+    e:"SUM selalu menjumlah seluruh data tanpa peduli filter, sedangkan SUBTOTAL mengabaikan baris yang sedang disembunyikan oleh filter — cocok untuk baris ringkasan yang interaktif.",
+    diff:"expert"
+  });
+}}
+];
+
+/* ===================== MODUL 10: POWER QUERY & OTOMASI ===================== */
+GEN[10] = [
+{diff:"medium", kind:"mc", make:function(){
+  const scenario = pick([
+    ["Menggabungkan tabel Penjualan dengan tabel Master Produk berdasarkan kolom Kode yang sama","Merge Queries"],
+    ["Menyatukan 12 file laporan bulanan berkolom identik menjadi satu tabel panjang","Append Queries"]
+  ]);
+  const other = scenario[1]==="Merge Queries" ? "Append Queries" : "Merge Queries";
+  return mkMC({
+    q:scenario[0]+". Perintah Power Query yang dipakai adalah...",
+    correct: scenario[1],
+    distractors:[other,"Group By","Transpose"],
+    e:scenario[1]==="Merge Queries" ? "Merge menyatukan ke SAMPING berdasarkan kunci (seperti lookup)." : "Append menumpuk baris dari beberapa tabel berkolom sama menjadi satu tabel panjang.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Tabel punya kolom Jan, Feb, Mar sampai Des. Agar bisa dianalisis di PivotTable, bentuknya diubah dengan...",
+    correct:"Unpivot Columns",
+    distractors:["Pivot Column","Remove Duplicates","Split Column"],
+    e:"Unpivot mengubahnya menjadi dua kolom (Bulan dan Nilai) — format panjang inilah yang disukai PivotTable.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Setelah file sumber diperbarui, cara memperbarui semua hasil Power Query di workbook adalah...",
+    correct:"Data → Refresh All",
+    distractors:["Menghapus query lalu mengulang","Save As file baru","Menekan F2"],
+    e:"Refresh All menjalankan ulang seluruh langkah yang sudah tercatat pada setiap query.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  return mkMC({
+    q:"Fungsi utama panel Applied Steps di editor Power Query adalah...",
+    correct:"Menyimpan riwayat langkah agar bisa diedit dan diulang",
+    distractors:["Menampilkan grafik","Mengunci file sumber","Mengatur warna tabel"],
+    e:"Setiap langkah tersimpan berurutan, sehingga kesalahan di tengah proses bisa diperbaiki tanpa mengulang semuanya.",
+    diff:"medium"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  return mkMC({
+    q:"Setiap bulan kamu membersihkan puluhan file CSV dengan langkah pembersihan yang persis sama. Solusi paling efisien adalah...",
+    correct:"Power Query dengan sumber Folder",
+    distractors:["Merekam Macro penghapus baris","Menyalin manual lebih cepat","Membuat PivotTable"],
+    e:"Power Query bisa membaca seluruh isi folder sekaligus dan mengulang semua langkah pembersihan hanya dengan Refresh.",
+    diff:"medium"
+  });
+}},
+{diff:"hard", kind:"mc", make:function(){
+  return mkMC({
+    q:"Power Pivot / Data Model dipakai ketika...",
+    correct:"Perlu menghubungkan beberapa tabel dengan relasi dan rumus DAX",
+    distractors:["Data hanya satu tabel kecil","Ingin mengganti warna sel","Ingin mencetak dokumen"],
+    e:"Data Model memungkinkan satu PivotTable menarik data dari beberapa tabel yang saling berelasi, tanpa VLOOKUP.",
+    diff:"hard"
+  });
+}},
+{diff:"expert", kind:"mc", make:function(){
+  return mkMC({
+    q:"Dibanding menulis rumus VLOOKUP manual di ribuan baris, alasan memilih Power Query untuk membersihkan dan menggabungkan data bulanan yang berulang adalah...",
+    correct:"Langkah pembersihan tersimpan permanen dan cukup di-refresh ulang tiap bulan tanpa mengulang kerja dari nol",
+    distractors:["Power Query menghasilkan angka yang lebih akurat","VLOOKUP tidak bisa dipakai untuk data besar","Power Query tidak memerlukan data sumber"],
+    e:"Keunggulan utama Power Query adalah proses yang terekam sebagai Applied Steps — pekerjaan repetitif bulanan cukup di-refresh, bukan diulang manual.",
+    diff:"expert"
+  });
+}}
+];
+
+/* ===================== MODUL 11: RUMUS KEUANGAN ===================== */
+GEN[11] = [
+{diff:"medium", kind:"fill", make:function(){
+  const rate = pick([6,7,8,9,10,12]);
+  const yrs = pick([3,4,5,10,15]);
+  return mkFill({
+    q:"Bunga tahunan ada di B1, jangka waktu dalam TAHUN di B2, dan pokok pinjaman di B3. Tulis rumus angsuran BULANANnya.",
+    sheet:S(["A","B"],[["Bunga/tahun",rate+"%"],["Tenor (tahun)",String(yrs)],["Pokok","100000000"],["Angsuran","?"]]),
+    a:["=PMT(B1/12,B2*12,-B3)","=PMT(B1/12,B2*12,B3)"],
+    hint:"Bagi bunga dengan 12, kalikan tenor dengan 12, dan beri tanda minus di depan pokok.",
+    e:"`=PMT(B1/12,B2*12,-B3)`. Menyamakan satuan periode adalah kunci — memasukkan bunga tahunan langsung akan meleset jauh.",
+    diff:"medium"
+  });
+}},
+{diff:"hard", kind:"fill", make:function(){
+  const principal = pick([30,50,75,100,150,200]) * 1000000;
+  const rate = pick([5,6,7,8,9]);
+  const yrs = pick([3,4,5]);
+  return mkFill({
+    q:"Tulis rumus angsuran bulanan untuk pinjaman "+principal.toLocaleString("id-ID")+" dengan bunga "+rate+"% per tahun selama "+yrs+" tahun, dengan semua angka diketik langsung dalam rumus.",
+    a:["=PMT("+rate+"%/12,"+(yrs*12)+",-"+principal+")","=PMT("+rate+"%/12,"+yrs+"*12,-"+principal+")","=PMT(0."+String(rate).padStart(2,"0")+"/12,"+(yrs*12)+",-"+principal+")"],
+    hint:yrs+" tahun sama dengan "+(yrs*12)+" bulan.",
+    e:"`=PMT("+rate+"%/12,"+(yrs*12)+",-"+principal+")`. Boleh juga menulis "+yrs+"*12 untuk periodenya agar lebih mudah dibaca.",
+    diff:"hard"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const deposit = pick([500000,1000000,1500000,2000000]);
+  const rate = pick([4,5,6,7]);
+  const yrs = pick([2,3,4,5]);
+  return mkFill({
+    q:"Kamu menabung "+deposit.toLocaleString("id-ID")+" setiap bulan selama "+yrs+" tahun dengan bunga "+rate+"% per tahun. Tulis rumus untuk mengetahui saldo akhirnya.",
+    a:["=FV("+rate+"%/12,"+(yrs*12)+",-"+deposit+")","=FV("+rate+"%/12,"+yrs+"*12,-"+deposit+")"],
+    hint:"FV(rate, jumlah_periode, setoran). Setoran ditulis negatif.",
+    e:"`=FV("+rate+"%/12,"+(yrs*12)+",-"+deposit+")`. Setoran bertanda minus karena uang keluar dari kantong kita.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Bunga pinjaman 12% per tahun dengan angsuran BULANAN. Argumen rate pada PMT ditulis...",
+    correct:"12%/12",
+    distractors:["12%","12%*12","12"],
+    e:"Satuan bunga harus sama dengan periode angsuran, jadi bunga tahunan dibagi 12.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Fungsi untuk menghitung besar angsuran bulanan sebuah KPR adalah...",
+    correct:"=PMT()",
+    distractors:["=FV()","=NPV()","=RATE()"],
+    e:"PMT (payment) menghasilkan cicilan tetap per periode berdasarkan pokok, bunga, dan jangka waktu.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  return mkMC({
+    q:"Sebuah proyek menghasilkan NPV positif. Artinya...",
+    correct:"Proyek menghasilkan nilai lebih besar dari biaya modalnya",
+    distractors:["Proyek merugi","NPV harus selalu nol","Datanya salah"],
+    e:"NPV positif berarti nilai sekarang arus kas masuk melampaui investasi awal, sehingga proyek layak dipertimbangkan.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  return mkMC({
+    q:"IRR sebuah investasi adalah tingkat diskonto yang membuat...",
+    correct:"NPV sama dengan nol",
+    distractors:["Arus kas menjadi nol","PMT maksimum","Bunga menjadi tetap"],
+    e:"IRR dibandingkan dengan biaya modal: bila IRR lebih tinggi, investasi dianggap menarik.",
+    diff:"medium"
+  });
+}},
+{diff:"expert", kind:"mc", make:function(){
+  const scenario = pick([
+    ["Kamu tahu akan butuh dana 200 juta untuk pendidikan anak 10 tahun lagi, dan ingin tahu berapa nilai tabungan itu setara HARI INI","PV (Present Value)"],
+    ["Kamu menabung rutin tiap bulan dan ingin tahu saldo akumulasi setelah 10 tahun ke depan","FV (Future Value)"]
+  ]);
+  const other = scenario[1].indexOf("PV")===0 ? "FV (Future Value)" : "PV (Present Value)";
+  return mkMC({
+    q:scenario[0]+". Fungsi yang paling tepat digunakan adalah...",
+    correct: scenario[1],
+    distractors:[other,"PMT (Payment)","RATE"],
+    e:scenario[1].indexOf("PV")===0 ? "PV menghitung nilai SEKARANG dari sejumlah uang di masa depan — kebalikan dari FV." : "FV menghitung nilai AKHIR/masa depan dari setoran berkala — kebalikan dari PV.",
+    diff:"expert"
+  });
+}}
+];
+
+/* ===================== MODUL 12: STATISTIK & PERINGKAT ===================== */
+GEN[12] = [
+{diff:"hard", kind:"fill", make:function(){
+  const end=ri(15,40);
+  return mkFill({
+    q:"Nilai siswa ada di B2 dan seluruh data nilai ada di B2:B"+end+". Tulis rumus peringkatnya (nilai tertinggi jadi peringkat 1) dengan rentang yang dikunci agar aman disalin ke bawah.",
+    a:["=RANK.EQ(B2,$B$2:$B$"+end+",0)","=RANK(B2,$B$2:$B$"+end+",0)","=RANK.EQ(B2,$B$2:$B$"+end+")","=RANK(B2,$B$2:$B$"+end+")"],
+    strict:true,
+    hint:"Sel yang dinilai tetap relatif, tapi rentang pembandingnya dikunci penuh dengan $.",
+    e:"`=RANK.EQ(B2,$B$2:$B$"+end+",0)`. Tanpa tanda $, rentang ikut bergeser saat disalin dan peringkatnya jadi kacau.",
+    diff:"hard"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const n = ri(2,5); const end=ri(30,100);
+  return mkFill({
+    q:"Tulis rumus untuk menampilkan nilai terbesar ke-"+n+" dari rentang C2:C"+end+".",
+    a:["=LARGE(C2:C"+end+","+n+")"],
+    hint:"Lima huruf, argumen kedua adalah urutan ke berapa.",
+    e:"`=LARGE(C2:C"+end+","+n+")`. Berbeda dengan MAX yang hanya bisa mengambil juara pertama.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const n = ri(2,5); const end=ri(30,100);
+  return mkFill({
+    q:"Tulis rumus untuk menampilkan nilai terkecil ke-"+n+" dari rentang C2:C"+end+".",
+    a:["=SMALL(C2:C"+end+","+n+")"],
+    hint:"Kebalikan dari LARGE.",
+    e:"`=SMALL(C2:C"+end+","+n+")`.",
+    diff:"easy"
+  });
+}},
+{diff:"easy", kind:"fill", make:function(){
+  const end=ri(20,80);
+  return mkFill({
+    q:"Data gaji punya satu nilai ekstrem. Tulis rumus untuk mencari nilai TENGAH dari rentang B2:B"+end+".",
+    a:["=MEDIAN(B2:B"+end+")"],
+    hint:"Enam huruf.",
+    e:"`=MEDIAN(B2:B"+end+")`. Median tidak terseret oleh pencilan, sedangkan AVERAGE akan tertarik jauh oleh satu angka ekstrem.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const end=ri(20,80);
+  return mkFill({
+    q:"Tulis rumus untuk menghitung simpangan baku SAMPEL dari data pada rentang B2:B"+end+".",
+    a:["=STDEV.S(B2:B"+end+")","=STDEV(B2:B"+end+")"],
+    hint:"Akhiran .S untuk sampel, .P untuk populasi.",
+    e:"`=STDEV.S(B2:B"+end+")`. Gunakan STDEV.P hanya bila data mencakup seluruh populasi.",
+    diff:"medium"
+  });
+}},
+{diff:"medium", kind:"fill", make:function(){
+  const end=ri(20,80);
+  const pair = pick([["A2:A"+end,"B2:B"+end,"Biaya iklan","penjualan"],["C2:C"+end,"D2:D"+end,"jam belajar","nilai ujian"]]);
+  return mkFill({
+    q:pair[2].charAt(0).toUpperCase()+pair[2].slice(1)+" ada di "+pair[0]+" dan "+pair[3]+" di "+pair[1]+". Tulis rumus untuk mengukur kekuatan hubungan keduanya.",
+    a:["=CORREL("+pair[0]+","+pair[1]+")","=CORREL("+pair[1]+","+pair[0]+")"],
+    hint:"Enam huruf, dua rentang.",
+    e:"`=CORREL("+pair[0]+","+pair[1]+")`. Nilai mendekati 1 berarti hubungan positif kuat.",
+    diff:"medium"
+  });
+}},
+{diff:"easy", kind:"mc", make:function(){
+  const a=ri(10,50), b=ri(2,9);
+  const res = a % b;
+  const cands=[Math.floor(a/b), res+1, Math.max(0,res-1), b];
+  return mkMC({
+    q:"Berapa hasil `=MOD("+a+","+b+")`?",
+    correct: res,
+    distractors: numDistract(res,cands,3),
+    e:a+" dibagi "+b+" hasilnya "+Math.floor(a/b)+" sisa "+res+". MOD sering dipakai menandai baris genap/ganjil.",
+    diff:"easy"
+  });
+}},
+{diff:"medium", kind:"mc", make:function(){
+  return mkMC({
+    q:"Gaji di sebuah divisi sebagian besar sama, tetapi ada satu direktur bergaji jauh lebih tinggi dari yang lain. Ukuran pemusatan yang paling mewakili gaji umum karyawan adalah...",
+    correct:"MEDIAN",
+    distractors:["AVERAGE","MAX","SUM"],
+    e:"MEDIAN tidak terseret oleh nilai pencilan, sedangkan AVERAGE akan tertarik jauh ke atas oleh satu angka ekstrem.",
+    diff:"medium"
+  });
+}},
+{diff:"expert", kind:"mc", make:function(){
+  const wantAsc = pick([true,false]);
+  return mkMC({
+    q:"Kamu ingin membuat peringkat di mana nilai TERKECIL mendapat peringkat 1 (misalnya peringkat waktu tercepat dalam lomba lari). Argumen order pada RANK.EQ yang tepat adalah...",
+    correct: wantAsc ? "1 (bukan 0)" : "1 (bukan 0)",
+    distractors:["0 (default)","-1","Tidak perlu argumen ketiga"],
+    e:"Argumen order 0 (atau kosong) mengurutkan menurun (terbesar = peringkat 1). Untuk waktu tercepat atau nilai terkecil sebagai peringkat 1, order harus diisi 1 (menaik).",
+    diff:"expert"
+  });
+}}
+];
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const KEY = "formulaxcel.v1";
+const DEF = {xp:0, done:{}, best:{}, bestStreak:0, correct:0, retries:0, exam:null, sound:true, name:"", expertSolved:false, theme:"auto"};
+let ST = load();
+
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(!raw) return Object.assign({}, DEF);
+    const o = JSON.parse(raw);
+    return Object.assign({}, DEF, o||{});
+  }catch(e){ return Object.assign({}, DEF); }
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(ST)); }catch(e){} }
+function applyTheme(theme){
+  const mode = ["auto","light","dark"].includes(theme) ? theme : "auto";
+  ST.theme = mode;
+  const root = document.documentElement;
+  if(mode === "auto") root.removeAttribute("data-theme");
+  else root.setAttribute("data-theme", mode);
+  const iconMap = {dark:"☾", light:"☀", auto:"◐"};
+  const current = document.querySelector(".theme-current");
+  if(current) current.textContent = iconMap[mode] || "◐";
+  document.querySelectorAll(".theme-opt").forEach(function(btn){
+    const active = btn.dataset.theme === mode;
+    btn.classList.toggle("active", active);
+    btn.setAttribute("aria-pressed", active ? "true" : "false");
+  });
+  const toggle = document.querySelector(".theme-toggle");
+  if(toggle) toggle.classList.remove("open");
+  save();
+}
+document.addEventListener("click", function(event){
+  const toggle = event.target.closest(".theme-toggle");
+  const btn = event.target.closest(".theme-opt");
+  const current = event.target.closest(".theme-current");
+  if(current && toggle){
+    toggle.classList.toggle("open");
+    return;
+  }
+  if(btn){
+    applyTheme(btn.dataset.theme);
+    return;
+  }
+  document.querySelectorAll(".theme-toggle").forEach(function(el){ el.classList.remove("open"); });
+});
+applyTheme(ST.theme || "auto");
+
+/* =========================================================
+   UTIL
+   ========================================================= */
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function fmt(s){ return esc(s).replace(/`([^`]+)`/g, function(_,m){ return "<code>"+m+"</code>"; }); }
+function isNum(v){ return v!=="" && !isNaN(String(v).replace(",",".")); }
+function norm(s, keepDollar){
+  let x = String(s).toUpperCase()
+    .replace(/[\u201C\u201D\u201E]/g,'"').replace(/[\u2018\u2019]/g,'"').replace(/'/g,'"')
+    .replace(/\s+/g,"").replace(/;/g,",").replace(/^=/,"");
+  if(!keepDollar) x = x.replace(/\$/g,"");
+  return x;
+}
+function fillOK(q, val){
+  return q.a.some(function(a){ return norm(a, q.strict) === norm(val, q.strict); });
+}
+const KEYS = ["=","(",")",":",",","\"","$",">","<",">=","<=","&","*","/"];
+function ins(i){
+  const k = KEYS[i], el = document.getElementById("fillIn");
+  if(!el || el.disabled) return;
+  const a = el.selectionStart, b = el.selectionEnd;
+  el.value = el.value.slice(0,a) + k + el.value.slice(b);
+  el.selectionStart = el.selectionEnd = a + k.length;
+  el.focus();
+}
+function showHint(){
+  const b = document.getElementById("hintBox");
+  if(b) b.classList.add("on");
+}
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("on");
+  clearTimeout(t._t); t._t = setTimeout(function(){ t.classList.remove("on"); }, 2200);
+}
+function go(id){
+  document.querySelectorAll("section").forEach(function(s){ s.classList.remove("on"); });
+  document.getElementById(id).classList.add("on");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+function sheetHTML(sh){
+  if(!sh) return "";
+  let h = '<div class="sheet"><table class="xl"><thead><tr><th></th>';
+  sh.cols.forEach(function(c){ h += "<th>"+esc(c)+"</th>"; });
+  h += "</tr></thead><tbody>";
+  sh.rows.forEach(function(r,i){
+    h += "<tr><th>"+(sh.start+i)+"</th>";
+    for(let j=0;j<sh.cols.length;j++){
+      const v = r[j]===undefined ? "" : r[j];
+      h += '<td class="'+(isNum(v)?"n":"")+'">'+esc(v)+"</td>";
+    }
+    h += "</tr>";
+  });
+  return h + "</tbody></table></div>";
+}
+function shuffle(a){
+  const x = a.slice();
+  for(let i=x.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); const t=x[i]; x[i]=x[j]; x[j]=t; }
+  return x;
+}
+
+/* ---- sound ---- */
+let AC = null;
+function beep(freq, dur, type){
+  if(!ST.sound) return;
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.type = type||"sine"; o.frequency.value = freq;
+    g.gain.setValueAtTime(.001, AC.currentTime);
+    g.gain.exponentialRampToValueAtTime(.09, AC.currentTime+.01);
+    g.gain.exponentialRampToValueAtTime(.001, AC.currentTime+dur);
+    o.connect(g); g.connect(AC.destination); o.start(); o.stop(AC.currentTime+dur+.02);
+  }catch(e){}
+}
+const sndOk = function(){ beep(660,.12); setTimeout(function(){beep(880,.16);},90); };
+const sndNo = function(){ beep(200,.22,"square"); };
+const sndWin = function(){ [523,659,784,1046].forEach(function(f,i){ setTimeout(function(){beep(f,.2);}, i*110); }); };
+const sndModule = function(){ [392,523,659,784].forEach(function(f,i){ setTimeout(function(){beep(f,.18);}, i*110); }); };
+const sndBadge = function(){ [659,784,1046,1318].forEach(function(f,i){ setTimeout(function(){beep(f,.16);}, i*100); }); };
+const sndExam = function(){ [523,659,784,1046,1318].forEach(function(f,i){ setTimeout(function(){beep(f,.2);}, i*120); }); };
+function toggleSound(){
+  ST.sound = !ST.sound; save();
+  document.getElementById("sndBtn").textContent = ST.sound ? "🔊" : "🔇";
+  if(ST.sound) beep(700,.1);
+}
+
+/* =========================================================
+   RENDER HOME
+   ========================================================= */
+const TOTAL_Q = Object.keys(GEN).reduce(function(s,k){ return s+GEN[k].length; },0);
+let LAST_BADGE_COUNT = null;
+
+function unlocked(id){ return id===1 || !!ST.done[1]; }
+function allDone(){ return LEVELS.every(function(l){ return !!ST.done[l.id]; }); }
+function totalStars(){ return LEVELS.reduce(function(s,l){ return s + (ST.best[l.id]||0); },0); }
+
+function renderHome(){
+  const doneCount = LEVELS.filter(function(l){ return ST.done[l.id]; }).length;
+  const pct = Math.round((doneCount/LEVELS.length)*100);
+  const circ = 2*Math.PI*52;
+  document.getElementById("ringFill").setAttribute("stroke-dasharray", circ);
+  document.getElementById("ringFill").setAttribute("stroke-dashoffset", circ*(1-pct/100));
+  document.getElementById("ringTxt").textContent = pct+"%";
+  document.getElementById("xpChip").textContent = "⚡ "+ST.xp+" XP";
+  document.getElementById("lvChip").textContent = "📚 "+doneCount+"/"+LEVELS.length+" modul";
+  document.getElementById("stQ").textContent = "🎯 "+ST.correct+" soal benar";
+  document.getElementById("stStar").textContent = "⭐ "+totalStars()+"/"+(LEVELS.length*3)+" bintang";
+  document.getElementById("stStreak").textContent = "🔥 Rekor beruntun "+ST.bestStreak;
+  document.getElementById("sndBtn").textContent = ST.sound ? "🔊" : "🔇";
+  
+  // modul
+  function cardHTML(l, wide){
+    const un = unlocked(l.id), dn = !!ST.done[l.id], st = ST.best[l.id]||0;
+    const done3 = dn && st >= 3;
+    let c = '<button class="lvl'+(un?"":" locked")+(wide?" wide":"")+(done3?" done3":"")+'" onclick="'+(un?("openLevel("+l.id+")"):"lockMsg()")+'">';
+    if(dn) c += '<div class="badge-done">SELESAI</div>';
+    if(done3) c += '<div class="pass-badge"><span class="mark">✓</span> EXCELLENT</div>';
+    c += '<div class="ico">'+(un?l.icon:"🔒")+"</div>";
+    c += '<div class="num">'+(l.core?"Modul Wajib":"Modul "+l.id)+" · 7 soal ·</div>";
+    c += "<h3>"+esc(l.name)+"</h3><p>"+esc(l.desc)+"</p>";
+    c += '<div class="tagrow">'+l.tags.map(function(t){ return '<span class="tag">'+esc(t)+"</span>"; }).join("")+"</div>";
+    c += '<div class="stars">';
+    for(let i=1;i<=3;i++) c += (i<=st ? "★" : '<span class="off">★</span>');
+    c += "</div></button>";
+    return c;
+  }
+  document.getElementById("coreBox").innerHTML = cardHTML(LEVELS[0], true);
+  document.getElementById("lvGrid").innerHTML = LEVELS.slice(1).map(function(l){ return cardHTML(l,false); }).join("");
+  document.getElementById("freeNote").textContent = ST.done[1]
+    ? "Semua terbuka — pelajari dalam urutan mana pun kamu mau"
+    : "Terkunci sampai Modul Rumus Dasar selesai";
+
+  // exam cta
+  const ready = allDone();
+  const ex = ST.exam;
+  const cta = document.getElementById("examCta");
+  cta.className = "exam-cta" + (ready?" ready":"");
+  if(ex && ex.pass){
+    cta.innerHTML = '<div class="trophy">🏆</div><div style="flex:1;min-width:230px">'+
+      "<h3>Kamu sudah Master Excel!</h3>"+
+      '<p>Nilai terbaik <b>'+ex.score+"%</b> ("+ex.right+"/"+ex.total+" benar) pada "+esc(ex.date)+". Sertifikatmu siap dicetak kapan saja.</p></div>"+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" onclick="openCert()">Lihat sertifikat</button>'+
+      '<button class="btn" onclick="startExam()">Ulang ujian</button></div>';
+  } else if(ready){
+    cta.innerHTML = '<div class="trophy">🎓</div><div style="flex:1;min-width:230px">'+
+      "<h3>Ujian Master Excel terbuka</h3>"+
+      "<p>30 soal campuran dari seluruh level, batas waktu 30 menit, tanpa nyawa dan tanpa petunjuk. Nilai minimal <b>80%</b> untuk lulus dan mendapat sertifikat.</p></div>"+
+      '<button class="btn primary big" onclick="startExam()">Mulai ujian</button>';
+  } else {
+    const left = LEVELS.length - LEVELS.filter(function(l){ return ST.done[l.id]; }).length;
+    cta.innerHTML = '<div class="trophy" style="opacity:.4">🔒</div><div style="flex:1;min-width:230px">'+
+      "<h3>Ujian Master masih terkunci</h3>"+
+      "<p>Tuntaskan <b>"+left+" modul lagi</b> untuk membuka ujian akhir. Lulus ujian akan memberimu sertifikat yang bisa dicetak.</p></div>";
+  }
+
+  // badges
+  const B = [
+    {e:"🌱", n:"Fondasi Kokoh", d:"Selesaikan Modul Rumus Dasar", on:!!ST.done[1]},
+    {e:"🧠", n:"Ahli Logika", d:"3 bintang di modul Logika", on:(ST.best[2]||0)>=3},
+    {e:"🔍", n:"Pemburu Data", d:"Selesaikan modul Lookup", on:!!ST.done[4]},
+    {e:"📐", n:"Analis Pivot", d:"Selesaikan modul PivotTable", on:!!ST.done[9]},
+    {e:"⚙️", n:"Sang Otomator", d:"Selesaikan modul Power Query", on:!!ST.done[10]},
+    {e:"💰", n:"Ahli Keuangan", d:"3 bintang di modul Keuangan", on:(ST.best[11]||0)>=3},
+    {e:"🔥", n:"Beruntun 10", d:"10 jawaban benar berturut-turut", on:ST.bestStreak>=10},
+    {e:"🎓", n:"Sang Pakar", d:"Jawab benar satu soal tingkat Pakar", on:!!ST.expertSolved},
+    {e:"⚡", n:"Kolektor XP", d:"Kumpulkan 1.000 XP", on:ST.xp>=1000},
+    {e:"💎", n:"Perfeksionis", d:"3 bintang di semua modul", on:totalStars()>=LEVELS.length*3},
+    {e:"🏆", n:"Master Excel", d:"Lulus ujian akhir", on:!!(ST.exam&&ST.exam.pass)}
+  ];
+  const badgeCount = B.filter(function(b){ return b.on; }).length;
+  if(LAST_BADGE_COUNT !== null && badgeCount > LAST_BADGE_COUNT) sndBadge();
+  LAST_BADGE_COUNT = badgeCount;
+  document.getElementById("badgeGrid").innerHTML = B.map(function(b){
+    return '<div class="bdg'+(b.on?"":" off")+'"><div class="e">'+b.e+'</div><b>'+b.n+"</b><small>"+b.d+"</small></div>";
+  }).join("");
+}
+function lockMsg(){ toast("Tuntaskan Modul Rumus Dasar dulu untuk membuka semua modul 🔒"); }
+function resetAll(){
+  if(!confirm("Hapus semua progres modul, XP, bintang, dan sertifikat dari perangkat ini?")) return;
+  ST = Object.assign({}, DEF); save(); renderHome(); go("home"); toast("Progres direset");
+}
+
+/* =========================================================
+   LEVEL INTRO
+   ========================================================= */
+function openLevel(id){
+  const l = LEVELS.find(function(x){ return x.id===id; });
+  const st = ST.best[id]||0;
+  const bank = GEN[id];
+  const nFillBank = bank.filter(function(g){ return g.kind==="fill"; }).length;
+  let h = '<div class="num" style="font-size:12px;letter-spacing:.14em;color:var(--mut);font-weight:700;text-transform:uppercase">'+(l.core?"Modul Wajib":"Modul "+l.id)+" · 7 soal per percobaan</div>";
+  h += "<h2>"+l.icon+" "+esc(l.name)+"</h2>";
+  h += '<p class="muted" style="margin:4px 0 0">'+esc(l.desc)+"</p>";
+  if(st) h += '<div class="stars" style="font-size:20px">'+"★".repeat(st)+'<span class="off">'+"★".repeat(3-st)+"</span></div>";
+  h += '<h3 style="margin-top:22px;font-size:16px">📘 Materi singkat</h3><div class="notes">';
+  l.notes.forEach(function(n){ h += '<div class="note"><span class="f">'+esc(n.f)+'</span><span class="d">'+esc(n.d)+"</span></div>"; });
+  h += "</div>";
+  h += '<div class="difflegend"><span class="diffbadge diff-easy">Mudah</span><span class="diffbadge diff-medium">Sedang</span><span class="diffbadge diff-hard">Sulit</span><span class="diffbadge diff-expert">Pakar</span><span class="muted sm">→ soal berjalan dari mudah menuju pakar tiap percobaan</span></div>';
+  h += '<div class="qfoot"><span class="muted sm" style="max-width:46ch">❤️❤️❤️ Tiga nyawa. '+
+       (nFillBank ? "Sebagian besar soal menuntutmu mengetik jawabannya sendiri (rumus/angka/sel), acak setiap kali dicoba. Setiap soal isian memberi dua kesempatan sebelum nyawa berkurang." : "Baca materinya dulu, lalu uji pemahamanmu.")+"</span>"+
+       '<div style="display:flex;gap:8px"><button class="btn" onclick="go(\'home\')">Kembali</button>'+
+       '<button class="btn primary big" onclick="startLevel('+l.id+')">Mulai Modul</button></div></div>';
+  document.getElementById("introBox").innerHTML = h;
+  go("intro");
+}
+
+/* =========================================================
+   MESIN KUIS
+   ========================================================= */
+let G = null;
+
+function startLevel(id){
+  const l = LEVELS.find(function(x){ return x.id===id; });
+  G = {mode:"level", lv:id, name:l.name, qs:sampleModuleQuestions(GEN[id]), i:0, right:0, wrong:0,
+       hearts:3, streak:0, xp:0, log:[], answered:false, try:0, assist:0};
+  document.getElementById("qStreak").style.display = "";
+  document.getElementById("qTimer").style.display = "none";
+  go("quiz"); drawQ();
+}
+
+function startExam(){
+  G = {mode:"exam", name:"Ujian Master Excel", qs:sampleExamQuestions(30), i:0, right:0, wrong:0,
+       hearts:0, streak:0, xp:0, log:[], answered:false, try:0, assist:0, left:30*60};
+  document.getElementById("qStreak").style.display = "none";
+  const tEl = document.getElementById("qTimer");
+  tEl.style.display = "";
+  clearInterval(G.timer);
+  G.timer = setInterval(function(){
+    if(!G || G.mode!=="exam") return;
+    G.left--;
+    const m = Math.floor(G.left/60), s = G.left%60;
+    tEl.textContent = m+":"+(s<10?"0":"")+s;
+    tEl.classList.toggle("warn", G.left<=120);
+    if(G.left<=0){ clearInterval(G.timer); toast("Waktu habis!"); finish(); }
+  },1000);
+  tEl.textContent = "30:00"; tEl.classList.remove("warn");
+  go("quiz"); drawQ();
+}
+
+function quitQuiz(){
+  if(!confirm("Keluar dari sesi ini? Progres sesi ini tidak disimpan.")) return;
+  if(G && G.timer) clearInterval(G.timer);
+  G = null; renderHome(); go("home");
+}
+
+function drawQ(){
+  const q = G.qs[G.i];
+  G.answered = false; G.try = 0;
+  document.getElementById("qProg").style.width = ((G.i)/G.qs.length*100)+"%";
+  document.getElementById("qStreak").textContent = "🔥 "+G.streak;
+  const hEl = document.getElementById("qHearts");
+  if(G.mode==="level"){
+    let s = "";
+    for(let i=0;i<3;i++) s += (i<G.hearts ? "❤️" : '<span class="off">🤍</span>');
+    hEl.innerHTML = s;
+  } else hEl.innerHTML = "";
+
+  let h = '<div class="qmeta"><span>'+esc(G.name)+'</span><span class="diffbadge diff-'+q.diff+'">'+(DIFF_META[q.diff]?DIFF_META[q.diff].label:"")+'</span><span>Soal '+(G.i+1)+" / "+G.qs.length+"</span></div>";
+  h += '<div class="qtext">'+fmt(q.q)+"</div>";
+  if(q.sheet) h += sheetHTML(q.sheet);
+
+  if(q.t==="mc"){
+    h += '<div class="opts" id="opts">';
+    q.o.forEach(function(o,i){
+      h += '<button class="opt" data-i="'+i+'" onclick="answerMC('+i+')"><span class="k">'+"ABCD"[i]+"</span><span>"+fmt(o)+"</span></button>";
+    });
+    h += "</div>";
+  } else {
+    h += '<div class="fill"><input id="fillIn" placeholder="Ketikkan rumusmu, contoh: =SUM(A1:A10)" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" onkeydown="if(event.key===\'Enter\')answerFill()">'+
+         '<button class="btn primary" id="fillBtn" onclick="answerFill()">Periksa</button></div>';
+    h += '<div class="keys">'+KEYS.map(function(k,i){ return '<button type="button" onclick="ins('+i+')">'+esc(k)+"</button>"; }).join("")+"</div>";
+    h += '<div class="hintbox" id="hintBox">💡 '+esc(q.hint||"")+"</div>";
+  }
+  h += '<div class="fb" id="fb"></div>';
+  h += '<div class="qfoot"><span class="muted sm" id="qnote">';
+  if(q.t==="fill" && G.mode==="level" && q.hint) h += '<button class="btn mini" type="button" onclick="showHint()">💡 Petunjuk</button>';
+  h += '</span><button class="btn primary" id="nextBtn" style="display:none" onclick="nextQ()">Lanjut →</button></div>';
+  document.getElementById("qCard").innerHTML = h;
+  const fi = document.getElementById("fillIn"); if(fi) fi.focus();
+}
+
+function answerMC(i){
+  if(G.answered) return;
+  const q = G.qs[G.i];
+  const ok = (i===q.a);
+  document.querySelectorAll("#opts .opt").forEach(function(b){
+    b.disabled = true;
+    const bi = +b.dataset.i;
+    if(bi===q.a) b.classList.add("correct");
+    if(bi===i && !ok) b.classList.add("wrong");
+  });
+  grade(ok, q.o[i], q.o[q.a]);
+}
+
+function answerFill(){
+  if(G.answered) return;
+  const q = G.qs[G.i];
+  const inp = document.getElementById("fillIn");
+  const val = (inp.value||"").trim();
+  if(!val){ toast("Tulis rumusnya dulu ya"); inp.focus(); return; }
+  const ok = fillOK(q, val);
+
+  if(!ok && G.mode==="level" && G.try===0){
+    G.try = 1; sndNo();
+    const fb = document.getElementById("fb");
+    fb.className = "fb no on";
+    fb.innerHTML = "<b>Belum tepat — coba sekali lagi</b>"+
+      (q.hint ? "💡 "+esc(q.hint) : "Periksa lagi nama fungsi, tanda kurung, titik dua, dan tanda kutipnya.")+
+      '<div class="muted sm" style="margin-top:6px">Kesempatan terakhir sebelum nyawa berkurang.</div>';
+    showHint();
+    inp.select(); inp.focus();
+    return;
+  }
+
+  inp.disabled = true;
+  document.getElementById("fillBtn").disabled = true;
+  inp.style.borderColor = ok ? "var(--acc)" : "var(--bad)";
+  grade(ok, val, q.a[0], ok && G.try===1);
+}
+
+function grade(ok, given, correct, partial){
+  const q = G.qs[G.i];
+  G.answered = true;
+  const fb = document.getElementById("fb");
+  if(ok){
+    G.right++; ST.correct++;
+    if(partial){
+      G.xp += 5;
+      fb.className = "fb ok on";
+      fb.innerHTML = "<b>✓ Benar di percobaan kedua — +5 XP</b>"+fmt(q.e);
+      G.assist = (G.assist||0) + 1;
+    } else {
+      G.streak++;
+      if(G.streak > ST.bestStreak) ST.bestStreak = G.streak;
+      const bonus = Math.min(G.streak-1,5)*2;
+      G.xp += 10 + bonus;
+      if(q.diff==="expert") ST.expertSolved = true;
+      if(G.mode==="exam"){
+        fb.className = "fb ok on"; fb.innerHTML = "<b>✓ Jawaban tersimpan</b>Pembahasan akan muncul setelah ujian selesai.";
+      } else {
+        fb.className = "fb ok on";
+        fb.innerHTML = "<b>✓ Benar!"+(bonus?" +"+(10+bonus)+" XP (bonus beruntun)":" +10 XP")+"</b>"+fmt(q.e);
+      }
+    }
+    sndOk();
+  } else {
+    G.wrong++; G.streak = 0;
+    sndNo();
+    if(G.mode==="level") G.hearts--;
+    if(G.mode==="exam"){
+      fb.className = "fb on"; fb.innerHTML = "<b>Jawaban tersimpan</b>Pembahasan akan muncul setelah ujian selesai.";
+    } else {
+      fb.className = "fb no on";
+      fb.innerHTML = "<b>✗ Belum tepat — jawabannya: "+fmt(String(correct))+"</b>"+fmt(q.e);
+    }
+  }
+  G.log.push({q:q.q, given:String(given), correct:String(correct), ok:ok, e:q.e});
+
+  if(G.mode==="level"){
+    let s = "";
+    for(let i=0;i<3;i++) s += (i<G.hearts ? "❤️" : '<span class="off">🤍</span>');
+    document.getElementById("qHearts").innerHTML = s;
+    if(G.hearts<=0){ document.getElementById("qnote").textContent = "Nyawa habis…"; setTimeout(finish, 1400); return; }
+  }
+  const nb = document.getElementById("nextBtn");
+  nb.style.display = "";
+  nb.textContent = (G.i === G.qs.length-1) ? "Selesai →" : "Lanjut →";
+  nb.focus();
+}
+
+function nextQ(){
+  G.i++;
+  if(G.i >= G.qs.length){ finish(); return; }
+  drawQ();
+}
+
+/* =========================================================
+   HASIL
+   ========================================================= */
+function finish(){
+  if(G.timer) clearInterval(G.timer);
+  const total = G.qs.length;
+  const pct = Math.round(G.right/total*100);
+  let h = "";
+
+  if(G.mode==="level"){
+    const survived = G.hearts > 0;
+    const assist = G.assist||0;
+    let stars = 0;
+    if(survived) stars = (G.wrong===0) ? (assist===0 ? 3 : 2) : (G.wrong===1 ? 2 : 1);
+    if(survived){
+      ST.xp += G.xp;
+      ST.done[G.lv] = true;
+      if(stars > (ST.best[G.lv]||0)) ST.best[G.lv] = stars;
+      sndModule();
+    } else { ST.retries++; }
+    save();
+
+    const mod = LEVELS.find(function(l){ return l.id===G.lv; });
+    h += '<div style="font-size:46px">'+(survived?(stars===3?"🎉":"✅"):"💔")+"</div>";
+    h += "<h2 style=\"font-size:24px;margin-top:6px\">"+(survived?"Modul "+esc(mod.name)+" selesai!":"Nyawa habis")+"</h2>";
+    h += '<div class="starsbig">';
+    for(let i=1;i<=3;i++) h += (i<=stars?"★":'<span class="off">★</span>');
+    h += "</div>";
+    h += '<div class="big">'+G.right+"<span style=\"font-size:24px;color:var(--mut)\">/"+total+"</span></div>";
+    h += '<p class="muted" style="margin:6px 0 0">'+(survived
+      ? ("+"+G.xp+" XP diperoleh"+(assist?" · "+assist+" soal terjawab di percobaan kedua (bintang penuh butuh sekali tepat)":""))
+      : "Tidak apa-apa. Baca lagi materinya, lalu coba lagi — rumus melekat justru lewat pengulangan.")+"</p>";
+    if(survived && G.lv===1 && LEVELS.length>1) h += '<p style="margin:10px 0 0;font-weight:600;color:var(--acc)">🔓 Semua modul lain kini terbuka. Pilih bebas mana yang ingin kamu pelajari.</p>';
+    h += review();
+    h += '<div class="btnrow">';
+    h += '<button class="btn" onclick="startLevel('+G.lv+')">Ulangi modul ini</button>';
+    const nx = LEVELS.filter(function(l){ return !ST.done[l.id] && unlocked(l.id); })[0];
+    if(survived && nx) h += '<button class="btn primary" onclick="openLevel('+nx.id+')">Lanjut: '+esc(nx.name)+"</button>";
+    if(survived && !nx) h += '<button class="btn primary" onclick="renderHome();go(\'home\')">🎓 Buka Ujian Master</button>';
+    h += '<button class="btn" onclick="renderHome();go(\'home\')">Pilih modul lain</button></div>';
+  } else {
+    const pass = pct >= 80;
+    ST.xp += G.xp; 
+    const rec = {score:pct, right:G.right, total:total, pass:pass, date:new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})};
+    if(!ST.exam || pct > ST.exam.score || (pass && !ST.exam.pass)) ST.exam = rec;
+    save();
+    if(pass) sndExam(); else sndNo();
+
+    h += '<div style="font-size:46px">'+(pass?"🏆":"📉")+"</div>";
+    h += "<h2 style=\"font-size:24px;margin-top:6px\">"+(pass?"Selamat, kamu LULUS!":"Belum lulus")+"</h2>";
+    h += '<div class="big" style="color:'+(pass?"var(--acc)":"var(--bad)")+'">'+pct+"%</div>";
+    h += '<p class="muted" style="margin:6px 0 0">'+G.right+" dari "+total+" soal benar · batas kelulusan 80%</p>";
+    h += review();
+    h += '<div class="btnrow">';
+    if(pass) h += '<button class="btn primary big" onclick="openCert()">🎓 Ambil Sertifikat</button>';
+    h += '<button class="btn" onclick="startExam()">Ulangi ujian</button>';
+    h += '<button class="btn" onclick="renderHome();go(\'home\')">Beranda</button></div>';
+  }
+  document.getElementById("resBox").innerHTML = h;
+  renderHome();
+  go("result");
+}
+
+function review(){
+  const wrongs = G.log.filter(function(x){ return !x.ok; });
+  if(!wrongs.length) return '<p style="margin-top:20px;font-weight:600;color:var(--acc)">Sempurna — tidak ada satu pun jawaban yang meleset! 💎</p>';
+  let h = '<h3 style="text-align:left;margin-top:26px;font-size:16px">📝 Bahas yang belum tepat ('+wrongs.length+")</h3>";
+  h += '<div class="review">';
+  wrongs.forEach(function(w){
+    h += '<div class="rv"><b>'+fmt(w.q)+"</b>";
+    h += '<div>Jawabanmu: <span class="w">'+esc(w.given)+'</span> · Kunci: <span class="a">'+esc(w.correct)+"</span></div>";
+    h += '<div class="muted" style="margin-top:5px">'+fmt(w.e)+"</div></div>";
+  });
+  return h + "</div>";
+}
+
+/* =========================================================
+   SERTIFIKAT
+   ========================================================= */
+function openCert(){
+  document.getElementById("certName").value = ST.name || "";
+  go("cert");
+  if(ST.name) buildCert(); else document.getElementById("certName").focus();
+}
+
+function certId(name){
+  let s = 0, str = (name||"")+"|"+(ST.exam?ST.exam.date:"")+"|"+(ST.exam?ST.exam.score:0);
+  for(let i=0;i<str.length;i++){ s = (s*31 + str.charCodeAt(i)) >>> 0; }
+  const base = s.toString(36).toUpperCase().padStart(6,"0").slice(-6);
+  return "FQ-2026-"+base;
+}
+
+function buildCert(){
+  const nm = (document.getElementById("certName").value||"").trim();
+  if(!nm){ toast("Isi nama lengkapmu dulu"); document.getElementById("certName").focus(); return; }
+  if(!ST.exam || !ST.exam.pass){ toast("Sertifikat terbuka setelah lulus ujian"); return; }
+  ST.name = nm; save();
+  const ex = ST.exam;
+  const id = certId(nm);
+  const stars = totalStars();
+  let display = nm.toUpperCase();
+  let nameSize = 58;
+  if(display.length > 22) nameSize = 44;
+  if(display.length > 30) nameSize = 34;
+
+  const svg =
+'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1123 794" role="img" aria-label="Sertifikat Master Excel">'+
+'<defs>'+
+'<linearGradient id="bgg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f2f7f3"/></linearGradient>'+
+'<linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b8860b"/><stop offset=".5" stop-color="#e5c065"/><stop offset="1" stop-color="#b8860b"/></linearGradient>'+
+'</defs>'+
+'<rect width="1123" height="794" fill="url(#bgg)"/>'+
+'<rect x="26" y="26" width="1071" height="742" fill="none" stroke="#0f5c39" stroke-width="7"/>'+
+'<rect x="42" y="42" width="1039" height="710" fill="none" stroke="url(#gold)" stroke-width="2.5"/>'+
+/* corner ornaments */
+'<g stroke="#0f5c39" stroke-width="3" fill="none">'+
+'<path d="M62 100 V62 H100"/><path d="M1061 100 V62 H1023"/><path d="M62 694 V732 H100"/><path d="M1061 694 V732 H1023"/>'+
+'</g>'+
+/* watermark fx */
+'<text x="561" y="520" text-anchor="middle" font-family="Georgia, serif" font-size="330" fill="#0f5c39" opacity="0.045" font-style="italic">fx</text>'+
+/* header */
+'<text x="561" y="118" text-anchor="middle" font-family="Georgia, \'Times New Roman\', serif" font-size="17" letter-spacing="7" fill="#0f5c39">F O R M U L A Q U E S T   A C A D E M Y</text>'+
+'<line x1="380" y1="136" x2="742" y2="136" stroke="url(#gold)" stroke-width="2"/>'+
+'<text x="561" y="196" text-anchor="middle" font-family="Georgia, \'Times New Roman\', serif" font-size="46" font-weight="bold" letter-spacing="4" fill="#123a28">SERTIFIKAT KELULUSAN</text>'+
+'<text x="561" y="232" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" letter-spacing="5" fill="#6b7d72">MASTER RUMUS &amp; FUNGSI MICROSOFT EXCEL</text>'+
+/* body */
+'<text x="561" y="300" text-anchor="middle" font-family="Georgia, serif" font-size="19" fill="#4c5b52" font-style="italic">Dengan bangga diberikan kepada</text>'+
+'<text x="561" y="'+(300+nameSize+22)+'" text-anchor="middle" font-family="Georgia, \'Times New Roman\', serif" font-size="'+nameSize+'" font-weight="bold" fill="#0f5c39">'+esc(display)+"</text>"+
+'<line x1="250" y1="'+(300+nameSize+44)+'" x2="872" y2="'+(300+nameSize+44)+'" stroke="url(#gold)" stroke-width="2"/>'+
+'<text x="561" y="462" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16.5" fill="#43534a">atas keberhasilannya menuntaskan '+LEVELS.length+' modul pembelajaran rumus dan fungsi Excel</text>'+
+'<text x="561" y="488" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16.5" fill="#43534a">dan lulus Ujian Master Excel dengan nilai akhir</text>'+
+/* score block */
+'<text x="561" y="556" text-anchor="middle" font-family="Georgia, serif" font-size="54" font-weight="bold" fill="#b8860b">'+ex.score+'%</text>'+
+'<text x="561" y="582" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="13" letter-spacing="2" fill="#6b7d72">'+ex.right+' DARI '+ex.total+' SOAL BENAR  ·  '+stars+' / '+(LEVELS.length*3)+' BINTANG  ·  '+ST.xp+' XP</text>'+
+/* seal */
+'<g transform="translate(940,585)">'+
+'<circle r="62" fill="#0f5c39"/><circle r="54" fill="none" stroke="#e5c065" stroke-width="2"/>'+
+'<text y="-14" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="2.5" fill="#e5c065">CERTIFIED</text>'+
+'<text y="10" text-anchor="middle" font-family="Georgia, serif" font-size="24" font-weight="bold" fill="#ffffff">MASTER</text>'+
+'<text y="30" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="3" fill="#e5c065">EXCEL</text>'+
+'<text y="48" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="9" letter-spacing="1" fill="#9dc4ae">FORMULA XCEL</text>'+
+'</g>'+
+/* signature */
+'<g>'+
+'<text x="200" y="618" text-anchor="middle" font-family="Georgia, serif" font-size="26" font-style="italic" fill="#123a28">Formula Xcel</text>'+
+'<line x1="90" y1="634" x2="310" y2="634" stroke="#8a998f" stroke-width="1.2"/>'+
+'<text x="200" y="654" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="1.5" fill="#6b7d72">Direktur Akademi</text>'+
+'</g>'+
+/* footer meta */
+'<line x1="90" y1="700" x2="1033" y2="700" stroke="#dbe3dc" stroke-width="1"/>'+
+'<text x="90" y="724" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#6b7d72">No. Sertifikat: '+id+"</text>"+
+'<text x="1033" y="724" text-anchor="end" font-family="Arial, Helvetica, sans-serif" font-size="12.5" fill="#6b7d72">Diterbitkan: '+esc(ex.date)+"</text>"+
+'<text x="561" y="724" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" fill="#9aa79f">Sertifikat pembelajaran mandiri · bukan sertifikasi resmi Microsoft</text>'+
+"</svg>";
+
+  document.getElementById("certArea").innerHTML = svg;
+  sndWin();
+  toast("Sertifikat siap 🎉");
+}
+
+/* ---- unduh PNG via capability downloads ---- */
+let DL = null;
+(async function(){
+  for(let i=0;i<40 && !(window.claude && window.claude.use);i++){
+    await new Promise(function(r){ setTimeout(r,300); });
+  }
+  try{
+    if(window.claude && window.claude.use){
+      DL = await window.claude.use("downloads");
+      if(DL) document.getElementById("pngBtn").style.display = "";
+    }
+  }catch(e){}
+})();
+
+async function savePNG(){
+  const svgEl = document.querySelector("#certArea svg");
+  if(!svgEl){ toast("Buat sertifikatnya dulu"); return; }
+  if(!DL){ toast("Gunakan tombol Cetak untuk menyimpan"); return; }
+  try{
+    const src = new XMLSerializer().serializeToString(svgEl);
+    const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(src);
+    const img = new Image();
+    await new Promise(function(res, rej){ img.onload = res; img.onerror = rej; img.src = url; });
+    const c = document.createElement("canvas");
+    c.width = 2246; c.height = 1588;
+    const ctx = c.getContext("2d");
+    ctx.fillStyle = "#ffffff"; ctx.fillRect(0,0,c.width,c.height);
+    ctx.drawImage(img,0,0,c.width,c.height);
+    const blob = await new Promise(function(res){ c.toBlob(res,"image/png"); });
+    const fname = "Sertifikat-Master-Excel-" + (ST.name||"Peserta").replace(/[^A-Za-z0-9 ]/g,"").replace(/\s+/g,"-") + ".png";
+    await DL.save({filename:fname, data:blob});
+    toast("Sertifikat tersimpan ✓");
+  }catch(err){
+    if(err && err.code === "declined") return;
+    toast("Gagal menyimpan — coba tombol Cetak");
+  }
+}
+
+/* =========================================================
+   ANTI-INSPECT (deterrent)
+   ========================================================= */
+(function(){
+  function blockEvent(e){
+    if(e){ e.preventDefault(); e.stopPropagation(); }
+    return false;
+  }
+
+  document.addEventListener('contextmenu', blockEvent, {capture:true});
+  document.addEventListener('selectstart', blockEvent, {capture:true});
+  document.addEventListener('dragstart', blockEvent, {capture:true});
+
+  window.addEventListener('keydown', function(e){
+    const key = e.key ? e.key.toLowerCase() : '';
+    const ctrl = e.ctrlKey || e.metaKey;
+    const isBlockedShortcut =
+      e.key === 'F12' ||
+      (e.shiftKey && e.key === 'F10') ||
+      (ctrl && e.shiftKey && ['i','j','c','u'].includes(key)) ||
+      (ctrl && ['s','p'].includes(key)) ||
+      (e.altKey && key === 'i');
+
+    if(isBlockedShortcut){
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  }, {capture:true});
+})();
+
+/* =========================================================
+   INIT
+   ========================================================= */
+renderHome();
+</script>
+</body>
+</html>
